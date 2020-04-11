@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+  "name": "COVID-19 Footprint",
+  "author": "Abir Bhushan",
+  "description": "",
+  "version": "1.0.0",
+  "icons": {
+    "128": "icons/128.png",
+    "48": "icons/48.png",
+    "16": "icons/16.png"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-uevKEqHqDF6X1aFytcl7R7FsPmOFPun/Y4drRKXDNbw='; object-src 'self'",
+  "browser_action": {
+    "default_title": "COVID-19 Footprint",
+    "default_popup": "index.html"
+  }
+}
