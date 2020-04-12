@@ -1,6 +1,5 @@
-import { Row, Col } from "antd";
+import { Card, Row, Col } from "antd";
 import React, { Component } from "react";
-import '../assets/css/DataHeader.css'
 
 class DataHeader extends Component {
   render() {
@@ -10,9 +9,17 @@ class DataHeader extends Component {
     }
     return (
       <>
-        <Row>
-          <Col span={12}><div className="text">Confirmed: {latestData.confirmed}</div></Col>
-          <Col span={12}><div className="text">Deaths: {latestData.deaths}</div></Col>
+        <Row gutter={16}>
+          <Col span={12}>
+            <Card title="Confirmed" bordered={false}>
+              {latestData.confirmed}
+            </Card>
+          </Col>
+          <Col span={12}>
+            <Card title="Deaths" bordered={false}>
+              {latestData.deaths}
+            </Card>
+          </Col>
         </Row>
       </>
     );

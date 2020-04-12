@@ -1,12 +1,29 @@
-html, body {
-  background-color: #24292e;
+p,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+ol,
+dl,
+img,
+pre,
+form,
+fieldset {
   margin: 0;
   padding: 0;
-  width: 70%;
+}
+img,
+fieldset {
+  border: 0;
 }
 
-.content {
-  margin: 5%;
-  font-family: 'Roboto', sans-serif;
+.container {
+  padding: 2%;
+  width: 700px;
 }
+
 
