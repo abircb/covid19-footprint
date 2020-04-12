@@ -5,10 +5,10 @@ const { Meta } = Card;
 
 class LoadingCard extends React.Component {
   state = {
-    loading: true
+    loading: true,
   };
 
-  onChange = checked => {
+  onChange = (checked) => {
     this.setState({ loading: !checked });
   };
 
@@ -17,7 +17,7 @@ class LoadingCard extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: '100%' }} loading={loading}>
+        <Card style={{ width: "100%" }} loading={loading}>
           <Meta
             avatar={
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
@@ -31,4 +31,4 @@ class LoadingCard extends React.Component {
   }
 }
 
-export default LoadingCard
+export default LoadingCard;
