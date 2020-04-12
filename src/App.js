@@ -5,6 +5,8 @@ import { Layout } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import { requestLatestData } from './api/data';
 
+const { Content } = Layout;
+
 class App extends Component {
 
   constructor(props) {
@@ -24,9 +26,20 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <DataHeader latestData={this.state.latestData}></DataHeader>
-      </div>
+      <Layout style={{ padding: "1%" }}>
+      <Content
+        className="site-layout-background"
+        style={{
+          padding: 24,
+          margin: 0,
+          minHeight: 280
+        }}
+      >
+        <div className='container'>
+          <DataHeader latestData={this.state.latestData} />
+        </div>
+      </Content>
+    </Layout>
     )
   }
 }
