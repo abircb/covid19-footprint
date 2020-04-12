@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
-import './assets/css/nucleo-icons.css'
+import './assets/css/nucleo-icons.min.css'
 import { Layout, Typography } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import { requestLatestData } from './api/data';
