@@ -9,7 +9,6 @@ function requestLatestData() {
     fetch(SERVER + 'v2/latest')
       .then(async (res) => {
         let json = await res.json()
-        console.log(json)
         resolve(json)
       })
       .catch((e) => {
@@ -48,24 +47,24 @@ function requestDataByCountry(countryID) {
  */
 function requestListOfCountries() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'v2/locations')
-    .then(async (res) => {
-      let json = res.json()
-      let uniqueLocations = new Set()
-      let countries = []
-      json.locations.forEach((dataPoint) => {
-        uniqueLocations.add(dataPoint.country)
+    fetch(SERVER + 'v2/locations/')
+      .then(async (res) => {
+        let json = await res.json()
+        let uniqueLocations = new Set()
+        let countries = []
+        json.locations.forEach((dataPoint) => {
+          uniqueLocations.add(dataPoint.country)
+        })
+        uniqueLocations.forEach((country) => {
+          countries.push({ value: country })
+        })
+        resolve(countries)
       })
-      uniqueLocations.forEach((country) => {
-        countries.push({ value: country })
+      .catch((e) => {
+        reject(e)
+        console.error(e)
+        console.log('Network Error')
       })
-      resolve(countries)
-    })
-    .catch((e) => {
-      reject(e)
-      console.error(e)
-      console.log('Network Error')
-    })
   })
 }
 
