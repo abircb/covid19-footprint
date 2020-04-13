@@ -2,15 +2,15 @@ const SERVER = 'https://api.covid19api.com/'
 const SERVER_2 = 'https://coronavirus-tracker-api.herokuapp.com/'
 
 /**
- * Pulls Latest Data (Confirmed, Deaths, Recovered) from the Tracker API
+ * Pulls Latest Data (Confirmed, Deaths, Recovered) from the Postman API
  * @returns {Promise} object with latest data
  */
 function requestLatestData() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER_2 + 'v2/latest')
+    fetch(SERVER + 'summary')
       .then(async (res) => {
         let json = await res.json()
-        resolve(json)
+        resolve(json['Global'])
       })
       .catch((e) => {
         reject(e)
