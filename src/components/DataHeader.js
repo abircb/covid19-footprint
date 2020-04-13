@@ -13,17 +13,23 @@ class DataHeader extends Component {
     }
     return (
       <>
-        <Row gutter={24} style={style}>
-          <Col span={12}>
+        <Row gutter={4} style={style}>
+          <Col span={8}>
             <Card title='Confirmed' bordered={true}>
               <i className='tim-icons icon-check-2' />
               <div style={style}>{formatNum(summary['TotalConfirmed'])}</div>
             </Card>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <Card title='Deaths' bordered={true}>
               <i className='tim-icons icon-alert-circle-exc' />
               <div style={style}>{formatNum(summary['TotalDeaths'])}</div>
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card title='Recovered' bordered={true}>
+              <i className='tim-icons icon-alert-circle-exc' />
+              <div style={style}>{formatNum(summary['TotalRecovered'])}</div>
             </Card>
           </Col>
         </Row>

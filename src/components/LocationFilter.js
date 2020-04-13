@@ -8,7 +8,6 @@ class LocationFilter extends Component {
     if (!options) {
       return <LoadingCard></LoadingCard>
     }
-    console.log(options)
     return (
       <AutoComplete
         style={{
