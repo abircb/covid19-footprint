@@ -3,7 +3,7 @@ import { Layout } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
 import LocationFilter from './components/LocationFilter.js'
-import { requestLatestData, requestListOfCountries } from './api/data'
+import { requestSummary, requestListOfCountries } from './api/data'
 import { message } from 'antd'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
@@ -15,23 +15,22 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      latestData: null,
+      summary: null,
       countries: null,
     }
   }
 
   async componentDidMount() {
-    let latestData = await requestLatestData()
+    let summary = await requestSummary()
     let countries = await requestListOfCountries()
-    latestData = latestData['latest']
     this.setState({
-      latestData: latestData,
+      summary: summary,
       countries: countries,
     })
   }
 
   componentDidUpdate() {
-    if (this.state.latestData && this.state.countries) {
+    if (this.state.summary && this.state.countries) {
       message.success('Retrieved latest data', 1)
     }
   }
@@ -49,7 +48,7 @@ class App extends Component {
         >
           <div className='container'>
             <Header />
-            <DataHeader latestData={this.state.latestData} />
+            <DataHeader summary={this.state.summary} />
             <LocationFilter options={this.state.countries}/>
           </div>
         </Content>

@@ -2,10 +2,10 @@ const SERVER = 'https://api.covid19api.com/'
 const SERVER_2 = 'https://coronavirus-tracker-api.herokuapp.com/'
 
 /**
- * Pulls Latest Data (Confirmed, Deaths, Recovered) from the Postman API
+ * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the Postman API
  * @returns {Promise} object with latest data
  */
-function requestLatestData() {
+function requestSummary() {
   return new Promise((resolve, reject) => {
     fetch(SERVER + 'summary')
       .then(async (res) => {
@@ -68,4 +68,4 @@ function requestListOfCountries() {
   })
 }
 
-export { requestDataByCountry, requestLatestData, requestListOfCountries }
+export { requestDataByCountry, requestSummary, requestListOfCountries }
