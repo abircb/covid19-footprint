@@ -1,5 +1,5 @@
-import React, { Component } from "react"
-import { AutoComplete } from "antd"
+import React, { Component } from 'react'
+import { AutoComplete } from 'antd'
 
 class LocationFilter extends Component {
   render() {
@@ -8,10 +8,10 @@ class LocationFilter extends Component {
       <AutoComplete
         style={{
           width: '100%',
-          paddingTop: '5%'
+          paddingTop: '5%',
         }}
         options={options}
-        placeholder="Add Country"
+        placeholder='Add Country'
         filterOption={(inputValue, option) =>
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
@@ -21,4 +21,4 @@ class LocationFilter extends Component {
   }
 }
 
-export default LocationFilter;
+export default LocationFilter

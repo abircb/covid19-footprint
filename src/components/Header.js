@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Row, Col, Typography } from "antd";
-import logo from "../assets/img/logo.png";
-import "../assets/css/Header.css";
+import React, { Component } from 'react'
+import { Row, Col, Typography } from 'antd'
+import logo from '../assets/img/logo.png'
+import '../assets/css/Header.css'
 
-const { Title } = Typography;
+const { Title } = Typography
 
 class Header extends Component {
   render() {
@@ -16,12 +16,12 @@ class Header extends Component {
             Footprint
           </Title>
         </Col>
-        <Col span={6} style={{ marginTop: "2%" }}>
-          <img src={logo} className="image" alt="logo" />
+        <Col span={6} style={{ marginTop: '2%' }}>
+          <img src={logo} className='image' alt='logo' />
         </Col>
       </Row>
-    );
+    )
   }
 }
 
-export default Header;
+export default Header
