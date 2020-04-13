@@ -1,7 +1,7 @@
 import { Card, Row, Col } from "antd";
 import React, { Component } from "react";
 import LoadingCard from "../components/LoadingCard";
-import { formatNum } from "../api/format"
+import { formatNum } from "../api/format";
 
 const style = { textAlign: "center" };
 

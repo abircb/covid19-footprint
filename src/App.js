@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import "antd/dist/antd.dark.css";
-import "./assets/css/App.css";
-import "./assets/css/nucleo-icons.min.css";
-import { Layout, Typography } from "antd";
+import { Layout } from "antd";
 import DataHeader from "./components/DataHeader.js";
 import Header from "./components/Header.js";
 import { requestLatestData } from "./api/data";
-import { message, Button } from "antd";
+import { message } from "antd";
+import "antd/dist/antd.dark.css";
+import "./assets/css/App.css";
+import "./assets/css/nucleo-icons.min.css";
 
 const { Content } = Layout;
 
@@ -27,11 +27,9 @@ class App extends Component {
   }
 
   componentDidUpdate() {
+    console.log("update");
     if (this.state.latestData) {
-      message.success(
-        "You are now viewing the latest COVID-19 data",
-        1
-      );
+      message.success("Retrieved latest data", 1);
     }
   }
 
