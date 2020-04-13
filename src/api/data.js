@@ -1,5 +1,9 @@
 const SERVER = "https://coronavirus-tracker-api.herokuapp.com/"
 
+/**
+ * Pulls Latest Data (Confirmed, Deaths, Recovered) from the Tracker API
+ * @returns {Promise} object with latest data
+ */
 function requestLatestData() {
   return new Promise((resolve, reject) => {
     fetch(SERVER + "v2/latest")
@@ -16,6 +20,12 @@ function requestLatestData() {
   })
 }
 
+/**
+ * Pulls latest number of confirmed cases, deaths, and recovered by country 
+ * Query String Parameter: country_code
+ * @param {String} countryCode 
+ * @returns {Promose} object with latest data by country
+ */
 function requestDataByCountry(countryCode) {
   return new Promise((resolve, reject) => {
     fetch(SERVER + "v2/locations?country_code=" + countryCode)

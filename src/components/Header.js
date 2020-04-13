@@ -8,12 +8,12 @@ const { Title } = Typography;
 class Header extends Component {
   render() {
     return (
-      <Row>
+      <Row gutter={16}>
         <Col span={18}>
-            <Title level={2}>COVID-19 Footprint</Title>
+            <Title level={3}>COVID-19<br />Footprint</Title>
         </Col>
-        <Col span={6} style={{marginTop: '4%'}}>
-        <img src={logo} className="image" />
+        <Col span={6} style={{marginTop: '2%'}}>
+            <img src={logo} className="image" />
         </Col>
       </Row>
     );
