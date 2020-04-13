@@ -4,8 +4,9 @@ import "./assets/css/App.css";
 import "./assets/css/nucleo-icons.min.css";
 import { Layout, Typography } from "antd";
 import DataHeader from "./components/DataHeader.js";
-import Header from "./components/Header.js"
+import Header from "./components/Header.js";
 import { requestLatestData } from "./api/data";
+import { message, Button } from "antd";
 
 const { Content } = Layout;
 
@@ -23,6 +24,15 @@ class App extends Component {
     this.setState({
       latestData: latestData,
     });
+  }
+
+  componentDidUpdate() {
+    if (this.state.latestData) {
+      message.success(
+        "Retrieved latest data",
+        1
+      );
+    }
   }
 
   render() {

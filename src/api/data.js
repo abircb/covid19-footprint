@@ -24,7 +24,7 @@ function requestLatestData() {
  * Pulls latest number of confirmed cases, deaths, and recovered by country 
  * Query String Parameter: country_code
  * @param {String} countryCode 
- * @returns {Promose} object with latest data by country
+ * @returns {Promise} object with latest data by country
  */
 function requestDataByCountry(countryCode) {
   return new Promise((resolve, reject) => {
