@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Layout } from "antd";
 import DataHeader from "./components/DataHeader.js";
 import Header from "./components/Header.js";
+import LocationFilter from "./components/LocationFilter.js";
 import { requestLatestData } from "./api/data";
 import { message } from "antd";
 import "antd/dist/antd.dark.css";
@@ -15,6 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       latestData: null,
+      countries: null,
     };
   }
 
@@ -47,6 +49,7 @@ class App extends Component {
           <div className="container">
             <Header />
             <DataHeader latestData={this.state.latestData} />
+            <LocationFilter />
           </div>
         </Content>
       </Layout>
