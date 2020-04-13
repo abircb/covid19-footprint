@@ -4,6 +4,7 @@ import "./assets/css/App.css";
 import "./assets/css/nucleo-icons.min.css";
 import { Layout, Typography } from "antd";
 import DataHeader from "./components/DataHeader.js";
+import Header from "./components/Header.js"
 import { requestLatestData } from "./api/data";
 
 const { Content } = Layout;
@@ -36,6 +37,7 @@ class App extends Component {
           }}
         >
           <div className="container">
+            <Header />
             <DataHeader latestData={this.state.latestData} />
           </div>
         </Content>

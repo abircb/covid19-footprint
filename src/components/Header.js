@@ -11,7 +11,7 @@ class Header extends Component {
         <Col span={18}>
             <Title level={2}>COVID-19 Footprint</Title>
         </Col>
-        <Col span={6}>
+        <Col span={6} style={{marginTop: '4%'}}>
             <img src={logo} />
         </Col>
       </Row>
