@@ -16,7 +16,7 @@ class DataHeader extends Component {
         <Row gutter={4} style={style}>
           <Col span={8}>
             <Card title='Confirmed' bordered={true}>
-              <i className='tim-icons icon-check-2' />
+              <i className='tim-icons icon-world' />
               <div style={style}>{formatNum(summary['TotalConfirmed'])}</div>
             </Card>
           </Col>
@@ -28,7 +28,7 @@ class DataHeader extends Component {
           </Col>
           <Col span={8}>
             <Card title='Recovered' bordered={true}>
-              <i className='tim-icons icon-alert-circle-exc' />
+              <i className='tim-icons icon-check-2' />
               <div style={style}>{formatNum(summary['TotalRecovered'])}</div>
             </Card>
           </Col>
