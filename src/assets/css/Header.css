@@ -1,0 +1,6 @@
+.image {
+    -webkit-animation:spin 7s linear infinite;
+    animation:spin 7s linear infinite;
+}
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
