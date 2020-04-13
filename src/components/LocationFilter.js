@@ -8,6 +8,7 @@ class LocationFilter extends Component {
     if (!options) {
       return <LoadingCard></LoadingCard>
     }
+    console.log(options)
     return (
       <AutoComplete
         style={{
@@ -17,10 +18,10 @@ class LocationFilter extends Component {
         options={options}
         placeholder='Add Country'
         filterOption={(inputValue, option) =>
-          option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+          option.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
         }
-        onSelect={(value) => {
-          console.log(value)
+        onSelect={(value, option) => {
+          console.log(option)
         }}
         allowClear={true}
       />

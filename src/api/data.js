@@ -1,4 +1,5 @@
-const SERVER = 'https://coronavirus-tracker-api.herokuapp.com/'
+const SERVER = 'https://api.covid19api.com/'
+const SERVER_2 = 'https://coronavirus-tracker-api.herokuapp.com/'
 
 /**
  * Pulls Latest Data (Confirmed, Deaths, Recovered) from the Tracker API
@@ -6,7 +7,7 @@ const SERVER = 'https://coronavirus-tracker-api.herokuapp.com/'
  */
 function requestLatestData() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'v2/latest')
+    fetch(SERVER_2 + 'v2/latest')
       .then(async (res) => {
         let json = await res.json()
         resolve(json)
@@ -27,7 +28,7 @@ function requestLatestData() {
  */
 function requestDataByCountry(countryID) {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'v2/locations/' + countryID)
+    fetch(SERVER_2 + 'v2/locations/' + countryID)
       .then(async (res) => {
         let json = await res.json()
         console.log(json)
@@ -47,16 +48,15 @@ function requestDataByCountry(countryID) {
  */
 function requestListOfCountries() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'v2/locations/')
+    fetch(SERVER + 'countries')
       .then(async (res) => {
         let json = await res.json()
-        let uniqueLocations = new Set()
         let countries = []
-        json.locations.forEach((dataPoint) => {
-          uniqueLocations.add(dataPoint.country)
-        })
-        uniqueLocations.forEach((country) => {
-          countries.push({ value: country })
+        json.forEach((dataPoint) => {
+          countries.push({ 
+            value: dataPoint['Country'],
+            slug: dataPoint['Slug'],
+          })
         })
         resolve(countries)
       })
