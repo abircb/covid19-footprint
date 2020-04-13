@@ -12,13 +12,17 @@ class LocationFilter extends Component {
       <AutoComplete
         style={{
           width: '100%',
-          paddingTop: '5%',
+          marginTop: '5%',
         }}
         options={options}
         placeholder='Add Country'
         filterOption={(inputValue, option) =>
           option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
         }
+        onSelect={(value) => {
+          console.log(value)
+        }}
+        allowClear={true}
       />
     )
   }
