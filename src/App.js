@@ -29,7 +29,7 @@ class App extends Component {
   componentDidUpdate() {
     if (this.state.latestData) {
       message.success(
-        "Retrieved latest data",
+        "You are now viewing the latest COVID-19 data",
         1
       );
     }
