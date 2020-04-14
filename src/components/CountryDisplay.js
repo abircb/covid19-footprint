@@ -49,13 +49,15 @@ class CountryDisplay extends Component {
       {
         title: '',
         dataIndex: 'delete',
-        render: (text, record) => (
+        render: (text, record) =>
           this.state.count >= 1 ? (
-            <Popconfirm title="Are you sure you want to delete?" onConfirm={async () => this.deleteCountry(record.key)}>
-              Delete   
+            <Popconfirm
+              title='Are you sure you want to delete?'
+              onConfirm={async () => this.deleteCountry(record.key)}
+            >
+              Delete
             </Popconfirm>
-          ) : null
-        )
+          ) : null,
       },
     ]
   }
@@ -96,7 +98,7 @@ class CountryDisplay extends Component {
   async deleteCountry(slug) {
     const data = [...this.state.data]
     this.setState({
-      data: data.filter(item => item.key !== slug)
+      data: data.filter((item) => item.key !== slug),
     })
   }
 

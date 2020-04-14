@@ -76,7 +76,7 @@ function requestDataByCountry(slug) {
 function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
-  if (! dataPoint || !dataPoint['Confirmed']) {
+  if (!dataPoint || !dataPoint['Confirmed']) {
     return {
       key: '404',
     }
