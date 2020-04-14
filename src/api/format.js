@@ -18,4 +18,14 @@ function formatNum(num) {
   }
 }
 
-export { formatNum };
+function formatStat(percent) {
+  if (percent < 0) {
+    return '-' + formatNum(percent) + '%'
+  } else if (percent > 0) {
+    return '+' + formatNum(percent) + '%'
+  } else {
+    return '0%'
+  }
+}
+
+export { formatNum, formatStat };
