@@ -5,14 +5,14 @@ import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry } from '../api/data'
 
-const defaultCountries = ['united-states', 'united-kingdom', 'germany']
+const defaultCountries = ['united-states']
 
 class CountryDisplay extends Component {
   constructor(props) {
     super(props)
     this.state = {
       data: [],
-      count: 3,
+      count: 2,
       slugs: defaultCountries,
     }
     this.schema = [
@@ -56,7 +56,7 @@ class CountryDisplay extends Component {
         render: (text, record) => (
           <Popconfirm
             title='Are you sure you want to remove this country?'
-            onConfirm={async () => this.deleteCountry(record.key)}
+            onConfirm={() => this.deleteCountry(record.key)}
           >
             <i className='tim-icons icon-simple-remove' />
           </Popconfirm>
@@ -86,11 +86,7 @@ class CountryDisplay extends Component {
     let defaultData = []
     let countryData = null
     chrome.storage.sync.get(['slugs'], (result) => {
-      if (!result.slugs) {
-        this.defaultDisplay(function () {
-          console.log('Displaying default countries')
-        })
-      } else {
+      if (result && result.slugs && result.slugs !== 0) {
         console.log('Cache currently consists of' + result.slugs)
         result.slugs.forEach(async (slug) => {
           countryData = await requestDataByCountry(slug)
@@ -103,6 +99,17 @@ class CountryDisplay extends Component {
           function () {
             console.log('Displaying cached countries')
           }
+        )
+      } else {
+        this.state.slugs.forEach(async (slug) => {
+          countryData = await requestDataByCountry(slug)
+          defaultData.push(countryData)
+        })
+        this.setState(
+          {
+            data: defaultData,
+          },
+          console.log('Default display initiated')
         )
       }
     })
@@ -146,25 +153,30 @@ class CountryDisplay extends Component {
           },
           () => {
             chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-              console.log('Cache now consists of ' + this.state.slugs)
+              message
+                .success('Added to your list', 1)
+                .then(console.log('Cache now consists of ' + this.state.slugs))
             })
-            message.success('Added to your list', 1)
           }
         )
       }
     }
   }
 
-  async deleteCountry(slug) {
-    const { data, slugs } = this.state
+  deleteCountry(slug) {
+    const { data, count, slugs } = this.state
     this.setState(
       {
         data: data.filter((item) => item.key !== slug),
+        count: count - 1,
         slugs: slugs.filter((item) => item !== slug),
       },
-      function () {
-        console.log(this.state.slugs)
-        message.success('Removed from your list')
+      () => {
+        chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+          message
+            .success('Removed from your list', 1)
+            .then(console.log('Cache now consists of ' + this.state.slugs))
+        })
       }
     )
   }
