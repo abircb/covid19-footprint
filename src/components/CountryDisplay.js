@@ -52,10 +52,10 @@ class CountryDisplay extends Component {
         render: (text, record) =>
           this.state.count >= 1 ? (
             <Popconfirm
-              title='Are you sure you want to delete?'
+              title='Are you sure you want to remove this country?'
               onConfirm={async () => this.deleteCountry(record.key)}
             >
-              Delete
+              <i className='tim-icons icon-simple-remove' />
             </Popconfirm>
           ) : null,
       },
@@ -89,8 +89,8 @@ class CountryDisplay extends Component {
           data: [...data, countryData],
           count: count + 1,
           slugs: [...slugs, slug],
-        })
-        message.success('Added to your list', 1)
+        }) 
+       message.success('Added to your list', 1)
       }
     }
   }
@@ -100,6 +100,7 @@ class CountryDisplay extends Component {
     this.setState({
       data: data.filter((item) => item.key !== slug),
     })
+    message.success('Removed from your list')
   }
 
   render() {
