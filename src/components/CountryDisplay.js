@@ -1,44 +1,7 @@
 import React, { Component } from 'react'
-import { AutoComplete, Badge, Table, message } from 'antd'
+import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry } from '../api/data'
-
-const schema = [
-  {
-    title: 'Country',
-    dataIndex: 'country',
-    key: 'country',
-  },
-  {
-    title: 'New Cases',
-    dataIndex: 'delta',
-    key: 'delta',
-    render: (delta) => {
-      return (
-        <Badge
-          count={delta}
-          className='site-badge-count-4'
-          style={{ backgroundColor: '#108ee9' }}
-        />
-      )
-    },
-  },
-  {
-    title: 'Confirmed',
-    dataIndex: 'confirmed',
-    key: 'confirmed',
-  },
-  {
-    title: 'Deaths',
-    dataIndex: 'deaths',
-    key: 'deaths',
-  },
-  {
-    title: 'Recovered',
-    dataIndex: 'recovered',
-    key: 'recovered',
-  },
-]
 
 class CountryDisplay extends Component {
   constructor(props) {
@@ -48,6 +11,53 @@ class CountryDisplay extends Component {
       count: 0,
       slugs: [],
     }
+    this.schema = [
+      {
+        title: 'Country',
+        dataIndex: 'country',
+        key: 'country',
+      },
+      {
+        title: 'New Cases',
+        dataIndex: 'delta',
+        key: 'delta',
+        render: (delta) => {
+          return (
+            <Badge
+              count={delta}
+              className='site-badge-count-4'
+              style={{ backgroundColor: '#108ee9' }}
+            />
+          )
+        },
+      },
+      {
+        title: 'Confirmed',
+        dataIndex: 'confirmed',
+        key: 'confirmed',
+      },
+      {
+        title: 'Deaths',
+        dataIndex: 'deaths',
+        key: 'deaths',
+      },
+      {
+        title: 'Recovered',
+        dataIndex: 'recovered',
+        key: 'recovered',
+      },
+      {
+        title: '',
+        dataIndex: 'delete',
+        render: (text, record) => (
+          this.state.count >= 1 ? (
+            <Popconfirm title="Are you sure you want to delete?" onConfirm={async () => this.deleteCountry(record.key)}>
+              Delete   
+            </Popconfirm>
+          ) : null
+        )
+      },
+    ]
   }
 
   async componentDidMount() {
@@ -69,9 +79,8 @@ class CountryDisplay extends Component {
       let countryData = await requestDataByCountry(slug)
       if (countryData['key'] === '404') {
         message
-        .error('Data is currently unavailable for this country', 1.5)
-        .then(() => message.info('If this issue persists, *something*', 2))
-      
+          .error('Data is currently unavailable for this country', 1.5)
+          .then(() => message.info('If this issue persists, *something*', 2))
       } else {
         console.log(countryData)
         this.setState({
@@ -84,9 +93,16 @@ class CountryDisplay extends Component {
     }
   }
 
+  async deleteCountry(slug) {
+    const data = [...this.state.data]
+    this.setState({
+      data: data.filter(item => item.key !== slug)
+    })
+  }
+
   render() {
     const { options } = this.props
-    if (!options && this.state.data.length == 0) {
+    if (!options && this.state.data.length === 0) {
       return <LoadingCard></LoadingCard>
     }
     return (
@@ -97,7 +113,7 @@ class CountryDisplay extends Component {
             marginTop: '5%',
           }}
           options={options}
-          placeholder='Add Country'
+          placeholder='Add a country'
           filterOption={(inputValue, option) =>
             option.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
           }
@@ -108,7 +124,7 @@ class CountryDisplay extends Component {
           allowClear={true}
         />
         <Table
-          columns={schema}
+          columns={this.schema}
           dataSource={this.state.data}
           style={{ width: '100%', marginTop: '5%' }}
         />
