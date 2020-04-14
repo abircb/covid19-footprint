@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AutoComplete, Badge, Table } from 'antd'
+import { AutoComplete, Badge, Table, message } from 'antd'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry } from '../api/data'
 
@@ -10,7 +10,7 @@ const schema = [
     key: 'country',
   },
   {
-    title: 'Change',
+    title: 'New Cases',
     dataIndex: 'delta',
     key: 'delta',
     render: (delta) => {
@@ -46,27 +46,35 @@ class CountryDisplay extends Component {
     this.state = {
       data: [],
       count: 0,
+      slugs: [],
     }
   }
 
   async componentDidMount() {
     let defaultCountry = await requestDataByCountry('united-states')
     console.log(defaultCountry)
-    const { data, count } = this.state
+    const { data, count, slugs } = this.state
     this.setState({
       data: [...data, defaultCountry],
       count: count + 1,
+      slugs: [...slugs, 'united-states'],
     })
   }
 
   async addCountry(slug) {
-    let countryData = await requestDataByCountry(slug)
-    console.log(countryData)
-    const { data, count } = this.state
-    this.setState({
-      data: [...data, countryData],
-      count: count + 1,
-    })
+    const { data, count, slugs } = this.state
+    if (slugs.includes(slug)) {
+      message.info('Country already exists in your list', 1)
+    } else {
+      let countryData = await requestDataByCountry(slug)
+      console.log(countryData)
+      this.setState({
+        data: [...data, countryData],
+        count: count + 1,
+        slugs: [...slugs, slug],
+      })
+      message.success('Added to your list', 1)
+    }
   }
 
   render() {

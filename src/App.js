@@ -49,7 +49,7 @@ class App extends Component {
           <div className='container'>
             <Header />
             <DataHeader summary={this.state.summary} />
-            <CountryDisplay options={this.state.countries}/>
+            <CountryDisplay options={this.state.countries} />
           </div>
         </Content>
       </Layout>
