@@ -66,21 +66,21 @@ class CountryDisplay extends Component {
   }
 
   /**
-   * componentDidMount for React production build
-   
-    componentDidMount() {
-      let defaultData = []
-      let countryData = null
-      this.state.slugs.forEach(async (slug) => {
-        countryData = await requestDataByCountry(slug)
-        defaultData.push(countryData)
-      })
-      console.log(defaultData)
-      this.setState({
-        data: defaultData,
-      })
-    }
-   */
+     * componentDidMount for React production build
+     
+      componentDidMount() {
+        let defaultData = []
+        let countryData = null
+        this.state.slugs.forEach(async (slug) => {
+          countryData = await requestDataByCountry(slug)
+          defaultData.push(countryData)
+        })
+        console.log(defaultData)
+        this.setState({
+          data: defaultData,
+        })
+      }
+    */
 
   componentDidMount() {
     let defaultData = []
@@ -144,7 +144,10 @@ class CountryDisplay extends Component {
             count: count + 1,
             slugs: [...slugs, slug],
           },
-          function () {
+          () => {
+            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+              console.log('Cache now consists of ' + this.state.slugs)
+            })
             message.success('Added to your list', 1)
           }
         )
