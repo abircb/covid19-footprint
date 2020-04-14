@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
-import LocationFilter from './components/LocationFilter.js'
+import CountryDisplay from './components/CountryDisplay.js'
 import { requestSummary, requestListOfCountries } from './api/data'
 import { message } from 'antd'
 import 'antd/dist/antd.dark.css'
@@ -49,7 +49,7 @@ class App extends Component {
           <div className='container'>
             <Header />
             <DataHeader summary={this.state.summary} />
-            <LocationFilter options={this.state.countries}/>
+            <CountryDisplay options={this.state.countries}/>
           </div>
         </Content>
       </Layout>

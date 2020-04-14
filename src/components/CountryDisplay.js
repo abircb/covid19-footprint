@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { AutoComplete } from 'antd'
 import LoadingCard from './LoadingCard'
 
-class LocationFilter extends Component {
+class CountryDisplay extends Component {
   render() {
     const { options } = this.props
     if (!options) {
@@ -28,4 +28,4 @@ class LocationFilter extends Component {
   }
 }
 
-export default LocationFilter
+export default CountryDisplay
