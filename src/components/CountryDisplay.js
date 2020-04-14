@@ -67,13 +67,20 @@ class CountryDisplay extends Component {
       message.info('Country already exists in your list', 1)
     } else {
       let countryData = await requestDataByCountry(slug)
-      console.log(countryData)
-      this.setState({
-        data: [...data, countryData],
-        count: count + 1,
-        slugs: [...slugs, slug],
-      })
-      message.success('Added to your list', 1)
+      if (countryData['key'] === '404') {
+        message
+        .error('Data is currently unavailable for this country', 1.5)
+        .then(() => message.info('If this issue persists, *something*', 2))
+      
+      } else {
+        console.log(countryData)
+        this.setState({
+          data: [...data, countryData],
+          count: count + 1,
+          slugs: [...slugs, slug],
+        })
+        message.success('Added to your list', 1)
+      }
     }
   }
 

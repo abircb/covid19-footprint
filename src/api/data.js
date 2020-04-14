@@ -76,14 +76,21 @@ function requestDataByCountry(slug) {
 function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
-  let delta = deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
-  return {
-    key: slug,
-    country: dataPoint['Country'],
-    delta: delta,
-    confirmed: formatNum(dataPoint['Confirmed']),
-    deaths: formatNum(dataPoint['Deaths']),
-    recovered: formatNum(dataPoint['Recovered']),
+  if (! dataPoint || !dataPoint['Confirmed']) {
+    return {
+      key: '404',
+    }
+  } else {
+    let delta = deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
+    console.log(delta)
+    return {
+      key: slug,
+      country: dataPoint['Country'],
+      delta: delta,
+      confirmed: formatNum(dataPoint['Confirmed']),
+      deaths: formatNum(dataPoint['Deaths']),
+      recovered: formatNum(dataPoint['Recovered']),
+    }
   }
 }
 
