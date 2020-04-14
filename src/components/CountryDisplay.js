@@ -18,7 +18,7 @@ const schema = [
         <Badge
           count={delta}
           className='site-badge-count-4'
-          style={{ backgroundColor: '#52c41a' }}
+          style={{ backgroundColor: '#108ee9' }}
         />
       )
     },
@@ -40,14 +40,36 @@ const schema = [
   },
 ]
 
-const data = [
-
-]
-
 class CountryDisplay extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      data: [],
+    }
+  }
+
+  async componentDidMount() {
+    let defaultCountry = await requestDataByCountry('united-states')
+    console.log(defaultCountry)
+    let allCountries = this.state.data
+    allCountries.push(defaultCountry)
+    this.setState({
+      data: allCountries
+    })
+  }
+
+  addCountry(countryData) {
+    let allCountries = this.state.data
+    allCountries.push(countryData)
+    console.log(allCountries)
+    this.setState({
+      data: allCountries
+    })
+  }
+
   render() {
     const { options } = this.props
-    if (!options) {
+    if (!options && this.state.data.length == 0) {
       return <LoadingCard></LoadingCard>
     }
     return (
@@ -62,12 +84,15 @@ class CountryDisplay extends Component {
           filterOption={(inputValue, option) =>
             option.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
           }
-          onSelect={(value, option) => {
+          onSelect={async (value, option) => {
             console.log(option)
+            let countryData = await requestDataByCountry(option.slug)
+            console.log(countryData)
+            this.addCountry(countryData)
           }}
           allowClear={true}
         />
-        <Table columns={schema} dataSource={data} style={{width: '100%', marginTop:'5%'}} />
+        <Table columns={schema} dataSource={this.state.data} style={{width: '100%', marginTop:'5%'}} />
       </>
     )
   }

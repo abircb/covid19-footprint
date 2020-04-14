@@ -14,7 +14,7 @@ function formatNum(num) {
   } else if (num / 1000 >= 1) {
     return (num / 1000).toFixed(1).toString() + suffix[0];
   } else {
-    return num.toString();
+    return num.toFixed(1).toString();
   }
 }
 

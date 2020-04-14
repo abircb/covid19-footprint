@@ -1,3 +1,4 @@
+import { formatNum } from "./format";
 const SERVER = 'https://api.covid19api.com/'
 
 /**
@@ -73,14 +74,14 @@ function parseCountryData(data) {
   return {
     country: dataPoint['Country'],
     delta: delta,
-    confirmed: dataPoint['Confirmed'],
-    deaths: dataPoint['Deaths'],
-    recovered: dataPoint['Recovered']
+    confirmed: formatNum(dataPoint['Confirmed']),
+    deaths: formatNum(dataPoint['Deaths']),
+    recovered: formatNum(dataPoint['Recovered'])
   }
 }
 
 function deltaCases(a, b) {
-  return ((a - b) / b) * 100
+  return formatNum(((a - b) / b) * 100) + '%'
 }
 
 export { requestDataByCountry, requestSummary, requestListOfCountries }
