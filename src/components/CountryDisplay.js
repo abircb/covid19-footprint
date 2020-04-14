@@ -120,12 +120,14 @@ class CountryDisplay extends Component {
   }
 
   async deleteCountry(slug) {
-    const data = [...this.state.data]
+    const { data, slugs } = this.state
     this.setState(
       {
         data: data.filter((item) => item.key !== slug),
+        slugs: slugs.filter((item) => item !== slug),
       },
       function () {
+        console.log(this.state.slugs)
         message.success('Removed from your list')
       }
     )
