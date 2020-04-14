@@ -51,15 +51,14 @@ class CountryDisplay extends Component {
       {
         title: '',
         dataIndex: 'delete',
-        render: (text, record) =>
-          this.state.count >= 1 ? (
-            <Popconfirm
-              title='Are you sure you want to remove this country?'
-              onConfirm={async () => this.deleteCountry(record.key)}
-            >
-              <i className='tim-icons icon-simple-remove' />
-            </Popconfirm>
-          ) : null,
+        render: (text, record) => (
+          <Popconfirm
+            title='Are you sure you want to remove this country?'
+            onConfirm={async () => this.deleteCountry(record.key)}
+          >
+            <i className='tim-icons icon-simple-remove' />
+          </Popconfirm>
+        ),
       },
     ]
   }
@@ -67,21 +66,18 @@ class CountryDisplay extends Component {
   /**
    * componentDidMount for React production build
    
-   componentDidMount() {
-    let defaultData = []
-    let countryData = null
-    this.state.slugs.forEach(async (slug) => {
-      countryData = await requestDataByCountry(slug)
-      defaultData.push(countryData)
-    })
-    console.log(defaultData)
-    const { count, slugs } = this.state
-    this.setState({
-      data: defaultData,
-      count: count + 1,
-      slugs: [...slugs, 'united-states'],
-    })
-  }
+    componentDidMount() {
+      let defaultData = []
+      let countryData = null
+      this.state.slugs.forEach(async (slug) => {
+        countryData = await requestDataByCountry(slug)
+        defaultData.push(countryData)
+      })
+      console.log(defaultData)
+      this.setState({
+        data: defaultData,
+      })
+    }
    */
 
   componentDidMount() {
@@ -92,11 +88,8 @@ class CountryDisplay extends Component {
       defaultData.push(countryData)
     })
     console.log(defaultData)
-    const { count, slugs } = this.state
     this.setState({
       data: defaultData,
-      count: count + 1,
-      slugs: [...slugs, 'united-states'],
     })
   }
 
@@ -112,22 +105,30 @@ class CountryDisplay extends Component {
           .then(() => message.info('If this issue persists, *something*', 2))
       } else {
         console.log(countryData)
-        this.setState({
-          data: [...data, countryData],
-          count: count + 1,
-          slugs: [...slugs, slug],
-        })
-        message.success('Added to your list', 1)
+        this.setState(
+          {
+            data: [...data, countryData],
+            count: count + 1,
+            slugs: [...slugs, slug],
+          },
+          function () {
+            message.success('Added to your list', 1)
+          }
+        )
       }
     }
   }
 
   async deleteCountry(slug) {
     const data = [...this.state.data]
-    this.setState({
-      data: data.filter((item) => item.key !== slug),
-    })
-    message.success('Removed from your list')
+    this.setState(
+      {
+        data: data.filter((item) => item.key !== slug),
+      },
+      function () {
+        message.success('Removed from your list')
+      }
+    )
   }
 
   render() {
