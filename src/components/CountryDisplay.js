@@ -3,14 +3,15 @@ import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry } from '../api/data'
 
+const defaultCountries = ['united-states', 'united-kingdom', 'germany']
+
 class CountryDisplay extends Component {
   constructor(props) {
     super(props)
     this.state = {
       data: [],
-      count: 0,
-      slugs: [],
-      defaultCountries: ['united-states', 'united-kingdom', 'germany']
+      count: 3,
+      slugs: defaultCountries,
     }
     this.schema = [
       {
@@ -63,17 +64,37 @@ class CountryDisplay extends Component {
     ]
   }
 
-  componentDidMount() {
-    let defaultCountries = []
+  /**
+   * componentDidMount for React production build
+   
+   componentDidMount() {
+    let defaultData = []
     let countryData = null
-    this.state.defaultCountries.forEach(async (slug) => {
+    this.state.slugs.forEach(async (slug) => {
       countryData = await requestDataByCountry(slug)
-      defaultCountries.push(countryData)
+      defaultData.push(countryData)
     })
-    console.log(defaultCountries)
-    const { data, count, slugs } = this.state
+    console.log(defaultData)
+    const { count, slugs } = this.state
     this.setState({
-      data: defaultCountries,
+      data: defaultData,
+      count: count + 1,
+      slugs: [...slugs, 'united-states'],
+    })
+  }
+   */
+
+  componentDidMount() {
+    let defaultData = []
+    let countryData = null
+    this.state.slugs.forEach(async (slug) => {
+      countryData = await requestDataByCountry(slug)
+      defaultData.push(countryData)
+    })
+    console.log(defaultData)
+    const { count, slugs } = this.state
+    this.setState({
+      data: defaultData,
       count: count + 1,
       slugs: [...slugs, 'united-states'],
     })
@@ -95,8 +116,8 @@ class CountryDisplay extends Component {
           data: [...data, countryData],
           count: count + 1,
           slugs: [...slugs, slug],
-        }) 
-       message.success('Added to your list', 1)
+        })
+        message.success('Added to your list', 1)
       }
     }
   }
