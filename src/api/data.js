@@ -1,4 +1,4 @@
-import { formatNum } from "./format";
+import { formatNum, formatStat } from "./format";
 const SERVER = 'https://api.covid19api.com/'
 
 /**
@@ -81,7 +81,7 @@ function parseCountryData(data) {
 }
 
 function deltaCases(a, b) {
-  return formatNum(((a - b) / b) * 100) + '%'
+  return  formatStat(((a - b) / b) * 100) 
 }
 
 export { requestDataByCountry, requestSummary, requestListOfCountries }
