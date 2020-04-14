@@ -1,4 +1,4 @@
-import { formatNum, formatStat } from "./format";
+import { formatNum, formatStat } from './format'
 const SERVER = 'https://api.covid19api.com/'
 
 /**
@@ -31,7 +31,7 @@ function requestListOfCountries() {
         let json = await res.json()
         let countries = []
         json.forEach((dataPoint) => {
-          countries.push({ 
+          countries.push({
             value: dataPoint['Country'],
             slug: dataPoint['Slug'],
           })
@@ -83,18 +83,18 @@ function parseCountryData(data, slug) {
     delta: delta,
     confirmed: formatNum(dataPoint['Confirmed']),
     deaths: formatNum(dataPoint['Deaths']),
-    recovered: formatNum(dataPoint['Recovered'])
+    recovered: formatNum(dataPoint['Recovered']),
   }
 }
 
 /**
  * Calculates the relative change between two numbers
- * @param {Number} a Current number of confirmed cases 
+ * @param {Number} a Current number of confirmed cases
  * @param {Number} b Number of confirmed cases found in the previous update
  * @returns {String} The (relative) change between the two numbers, formatted according to the display requirements
  */
 function deltaCases(a, b) {
-  return  formatStat(((a - b) / b) * 100) 
+  return formatStat(((a - b) / b) * 100)
 }
 
 export { requestDataByCountry, requestSummary, requestListOfCountries }

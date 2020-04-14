@@ -55,7 +55,7 @@ class CountryDisplay extends Component {
     const { data, count } = this.state
     this.setState({
       data: [...data, defaultCountry],
-      count: count + 1
+      count: count + 1,
     })
   }
 
@@ -65,7 +65,7 @@ class CountryDisplay extends Component {
     const { data, count } = this.state
     this.setState({
       data: [...data, countryData],
-      count: count + 1
+      count: count + 1,
     })
   }
 
@@ -92,7 +92,11 @@ class CountryDisplay extends Component {
           }}
           allowClear={true}
         />
-        <Table columns={schema} dataSource={this.state.data} style={{width: '100%', marginTop:'5%'}} />
+        <Table
+          columns={schema}
+          dataSource={this.state.data}
+          style={{ width: '100%', marginTop: '5%' }}
+        />
       </>
     )
   }

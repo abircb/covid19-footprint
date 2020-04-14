@@ -16,7 +16,7 @@ class Header extends Component {
             Footprint
           </Title>
         </Col>
-        <Col span={6} style={{ marginTop: '2%', textAlign: 'center'}}>
+        <Col span={6} style={{ marginTop: '2%', textAlign: 'center' }}>
           <img src={logo} className='image' alt='logo' />
         </Col>
       </Row>
