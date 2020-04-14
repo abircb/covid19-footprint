@@ -13,5 +13,8 @@
   "browser_action": {
     "default_title": "COVID-19 Footprint",
     "default_popup": "index.html"
-  }
+  },
+  "permissions": [
+    "storage"
+  ]
 }

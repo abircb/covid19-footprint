@@ -1,3 +1,5 @@
+/* global chrome */
+
 import React, { Component } from 'react'
 import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
@@ -83,14 +85,45 @@ class CountryDisplay extends Component {
   componentDidMount() {
     let defaultData = []
     let countryData = null
+    chrome.storage.sync.get(['slugs'], (result) => {
+      if (!result.slugs) {
+        this.defaultDisplay(function () {
+          console.log('Displaying default countries')
+        })
+      } else {
+        console.log('Cache currently consists of' + result.slugs)
+        result.slugs.forEach(async (slug) => {
+          countryData = await requestDataByCountry(slug)
+          defaultData.push(countryData)
+        })
+        this.setState(
+          {
+            data: defaultData,
+          },
+          function () {
+            console.log('Displaying cached countries')
+          }
+        )
+      }
+    })
+  }
+
+  defaultDisplay(callback) {
+    let defaultData = []
+    let countryData = null
     this.state.slugs.forEach(async (slug) => {
       countryData = await requestDataByCountry(slug)
       defaultData.push(countryData)
     })
     console.log(defaultData)
-    this.setState({
-      data: defaultData,
-    })
+    this.setState(
+      {
+        data: defaultData,
+      },
+      function () {
+        console.log('Default display initiated')
+      }
+    )
   }
 
   async addCountry(slug) {
