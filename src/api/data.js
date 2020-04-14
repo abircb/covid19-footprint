@@ -56,8 +56,7 @@ function requestDataByCountry(slug) {
     fetch(SERVER + 'total/country/' + slug)
       .then(async (res) => {
         let json = await res.json()
-        console.log(json)
-        resolve(json)
+        resolve(parseCountryData(json))
       })
       .catch((e) => {
         reject(e)
@@ -65,6 +64,23 @@ function requestDataByCountry(slug) {
         console.log('Network Error')
       })
   })
+}
+
+function parseCountryData(data) {
+  let last = data.length - 1
+  let dataPoint = data[last]
+  let delta = deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
+  return {
+    country: dataPoint['Country'],
+    delta: delta,
+    confirmed: dataPoint['Confirmed'],
+    deaths: dataPoint['Deaths'],
+    recovered: dataPoint['Recovered']
+  }
+}
+
+function deltaCases(a, b) {
+  return ((a - b) / b) * 100
 }
 
 export { requestDataByCountry, requestSummary, requestListOfCountries }
