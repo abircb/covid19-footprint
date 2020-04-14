@@ -10,6 +10,7 @@ class CountryDisplay extends Component {
       data: [],
       count: 0,
       slugs: [],
+      defaultCountries: ['united-states', 'united-kingdom', 'germany']
     }
     this.schema = [
       {
@@ -62,12 +63,17 @@ class CountryDisplay extends Component {
     ]
   }
 
-  async componentDidMount() {
-    let defaultCountry = await requestDataByCountry('united-states')
-    console.log(defaultCountry)
+  componentDidMount() {
+    let defaultCountries = []
+    let countryData = null
+    this.state.defaultCountries.forEach(async (slug) => {
+      countryData = await requestDataByCountry(slug)
+      defaultCountries.push(countryData)
+    })
+    console.log(defaultCountries)
     const { data, count, slugs } = this.state
     this.setState({
-      data: [...data, defaultCountry],
+      data: defaultCountries,
       count: count + 1,
       slugs: [...slugs, 'united-states'],
     })
