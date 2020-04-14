@@ -119,7 +119,7 @@ class CountryDisplay extends Component {
         <AutoComplete
           style={{
             width: '100%',
-            marginTop: '5%',
+            marginTop: '3.7%',
           }}
           options={options}
           placeholder='Add a country'
@@ -135,7 +135,7 @@ class CountryDisplay extends Component {
         <Table
           columns={this.schema}
           dataSource={this.state.data}
-          style={{ width: '100%', marginTop: '5%' }}
+          style={{ width: '100%', marginTop: '3.7%' }}
         />
       </>
     )
