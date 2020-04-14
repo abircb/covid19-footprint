@@ -45,25 +45,27 @@ class CountryDisplay extends Component {
     super(props)
     this.state = {
       data: [],
+      count: 0,
     }
   }
 
   async componentDidMount() {
     let defaultCountry = await requestDataByCountry('united-states')
     console.log(defaultCountry)
-    let allCountries = this.state.data
-    allCountries.push(defaultCountry)
+    const { data, count } = this.state
     this.setState({
-      data: allCountries
+      data: [...data, defaultCountry],
+      count: count + 1
     })
   }
 
-  addCountry(countryData) {
-    let allCountries = this.state.data
-    allCountries.push(countryData)
-    console.log(allCountries)
+  async addCountry(slug) {
+    let countryData = await requestDataByCountry(slug)
+    console.log(countryData)
+    const { data, count } = this.state
     this.setState({
-      data: allCountries
+      data: [...data, countryData],
+      count: count + 1
     })
   }
 
@@ -86,9 +88,7 @@ class CountryDisplay extends Component {
           }
           onSelect={async (value, option) => {
             console.log(option)
-            let countryData = await requestDataByCountry(option.slug)
-            console.log(countryData)
-            this.addCountry(countryData)
+            this.addCountry(option.slug)
           }}
           allowClear={true}
         />

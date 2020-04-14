@@ -49,7 +49,7 @@ function requestListOfCountries() {
 /**
  * Pulls latest number of confirmed cases, deaths, and recovered by country
  * API Query Parameter: slug
- * @param {ID} slug
+ * @param {ID} slug The country's unique API slug
  * @returns {Promise} Promise object with latest data of the country
  */
 function requestDataByCountry(slug) {
@@ -57,7 +57,7 @@ function requestDataByCountry(slug) {
     fetch(SERVER + 'total/country/' + slug)
       .then(async (res) => {
         let json = await res.json()
-        resolve(parseCountryData(json))
+        resolve(parseCountryData(json, slug))
       })
       .catch((e) => {
         reject(e)
@@ -70,13 +70,15 @@ function requestDataByCountry(slug) {
 /**
  * Parses country data to match the schema
  * @param {Array} data An array containing a country's data
+ * @param {String} slug The country's unique API slug
  * @returns {Object} An object containing data conforming to the display schema
  */
-function parseCountryData(data) {
+function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
   let delta = deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
   return {
+    key: slug,
     country: dataPoint['Country'],
     delta: delta,
     confirmed: formatNum(dataPoint['Confirmed']),
