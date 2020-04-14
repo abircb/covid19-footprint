@@ -2,9 +2,9 @@ const suffix = ["K", "M", "B"]; // Unlikely for any of the data to go beyond a b
 
 /**
  * Converts a number to its Compact Number Format representation
- * https://developer.android.com/reference/android/icu/text/CompactDecimalFormat
+ * (https://developer.android.com/reference/android/icu/text/CompactDecimalFormat)
  * @param  {Number} num The number to be formatted
- * @return {String}
+ * @returns {String}
  */
 function formatNum(num) {
   if (num / 1e9 >= 1) {
@@ -18,6 +18,11 @@ function formatNum(num) {
   }
 }
 
+/**
+ * Rounds the number to 1 d.p and adds a positive/negative sign (if non-zero) to it
+ * @param {Number} percent 
+ * @returns {String}
+ */
 function formatStat(percent) {
   if (percent < 0) {
     return '-' + formatNum(percent) + '%'
