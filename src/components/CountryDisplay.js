@@ -11,9 +11,9 @@ class CountryDisplay extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: [],
-      count: 0,
-      slugs: [],
+      data: null,
+      count: null,
+      slugs: null,
     }
     this.schema = [
       {
@@ -56,7 +56,11 @@ class CountryDisplay extends Component {
         render: (text, record) => (
           <Popconfirm
             title='Are you sure you want to remove this country?'
-            onConfirm={() => this.deleteCountry(record.key)}
+            onConfirm={() =>
+              this.deleteCountry(record.key, function () {
+                console.log('Deleted' + record.key)
+              })
+            }
           >
             <i className='tim-icons icon-simple-remove' />
           </Popconfirm>
@@ -95,7 +99,7 @@ class CountryDisplay extends Component {
         this.setState(
           {
             data: cacheData,
-            count: cacheData.length,
+            count: result.slugs.length,
             slugs: result.slugs,
           },
           function () {
@@ -110,7 +114,7 @@ class CountryDisplay extends Component {
         this.setState(
           {
             data: cacheData,
-            count: cacheData.length,
+            count: defaultCountries.length,
             slugs: defaultCountries,
           },
           () => {
@@ -123,7 +127,7 @@ class CountryDisplay extends Component {
     })
   }
 
-  async addCountry(slug) {
+  async addCountry(slug, callback) {
     const { data, count, slugs } = this.state
     if (slugs.includes(slug)) {
       message.info('Country already exists in your list', 1)
@@ -134,7 +138,7 @@ class CountryDisplay extends Component {
           .error('Data is currently unavailable for this country', 1.5)
           .then(() =>
             message.info(
-              "If this issue persists, visit the support section on the Chrome Webstore",
+              'If this issue persists, visit the support section on the Chrome Webstore',
               3
             )
           )
@@ -158,7 +162,7 @@ class CountryDisplay extends Component {
     }
   }
 
-  deleteCountry(slug) {
+  deleteCountry(slug, callback) {
     const { data, count, slugs } = this.state
     this.setState(
       {
@@ -178,7 +182,11 @@ class CountryDisplay extends Component {
 
   render() {
     const { options } = this.props
-    if (!options && this.state.data.length === 0) {
+    if (
+      !options ||
+      !this.state.data ||
+      this.state.data.length !== this.state.count
+    ) {
       return <LoadingCard></LoadingCard>
     }
     return (
@@ -193,9 +201,11 @@ class CountryDisplay extends Component {
           filterOption={(inputValue, option) =>
             option.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
           }
-          onSelect={async (value, option) => {
+          onSelect={(value, option) => {
             console.log(option)
-            this.addCountry(option.slug)
+            this.addCountry(option.slug, function () {
+              console.log('Added' + option.slug)
+            })
           }}
           allowClear={true}
         />
@@ -206,22 +216,29 @@ class CountryDisplay extends Component {
             width: '100%',
             marginTop: '3.7%',
           }}
+          pagination={{ pageSize: 10 }}
         />
-        <Button 
-        type="primary" 
-        onClick={(event) => {
-          chrome.storage.sync.remove('slugs', function () {
-            message.warn('Cleared Cache', 2)
-            .then(console.log('Cache cleared'))
-          })
-        }}
-        danger>
+        <Button
+          type='primary'
+          onClick={(event) => {
+            chrome.storage.sync.remove('slugs', function () {
+              message
+                .warn('Cleared Cache', 2)
+                .then(console.log('Cache cleared'))
+            })
+          }}
+          danger
+        >
           Clear Cache
         </Button>
-        
       </>
     )
   }
+
+  // For testing Chrome Storage
+  /*
+  
+  */
 }
 
 export default CountryDisplay
