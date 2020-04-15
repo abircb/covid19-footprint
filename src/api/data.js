@@ -95,7 +95,7 @@ function requestDataByCountry(slug) {
 function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
-  if (!dataPoint || !dataPoint['Confirmed']) {
+  if (!dataPoint || !dataPoint['Confirmed'] || !dataPoint['Recovered'] || !dataPoint['Deaths']) {
     return {
       key: '404',
     }
@@ -107,8 +107,8 @@ function parseCountryData(data, slug) {
       country: dataPoint['Country'],
       delta: delta,
       confirmed: formatNum(dataPoint['Confirmed']),
-      deaths: formatNum(dataPoint['Deaths']),
       recovered: formatNum(dataPoint['Recovered']),
+      deaths: formatNum(dataPoint['Deaths']),
     }
   }
 }
@@ -123,9 +123,22 @@ function deltaCases(a, b) {
   return formatStat(((a - b) / b) * 100)
 }
 
+/**
+ * Checks if the data is missing values (Confirmed, Recovered, Deaths, etc.)
+ * @param {Object} data Data for the country
+ * @returns {Boolean} 
+ */
+function checkIfMissing(data) {
+  if (data['key'] == '404') {
+    return true
+  }
+  return false
+}
+
 export {
   requestDataByCountry,
   requestGlobalData,
   requestListOfCountries,
   filterGlobalSummary,
+  checkIfMissing,
 }

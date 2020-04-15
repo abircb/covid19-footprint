@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
-import { requestDataByCountry } from '../api/data'
+import { requestDataByCountry, checkIfMissing } from '../api/data'
 
 const defaultCountries = []
 
@@ -41,14 +41,14 @@ class CountryDisplay extends Component {
         key: 'confirmed',
       },
       {
-        title: 'Deaths',
-        dataIndex: 'deaths',
-        key: 'deaths',
-      },
-      {
         title: 'Recovered',
         dataIndex: 'recovered',
         key: 'recovered',
+      },
+      {
+        title: 'Deaths',
+        dataIndex: 'deaths',
+        key: 'deaths',
       },
       {
         title: '',
@@ -103,7 +103,9 @@ class CountryDisplay extends Component {
           }
         )
       } else {
-        message.info('Embed a country\'s COVID-19 data using the search bar below')
+        message.info(
+          "Embed a country's COVID-19 data using the search bar below"
+        )
       }
     })
   }
@@ -116,10 +118,15 @@ class CountryDisplay extends Component {
       message.info('Country already exists in your list', 1)
     } else {
       let countryData = await requestDataByCountry(slug)
-      if (countryData['key'] === '404') {
+      if (checkIfMissing(countryData)) {
         message
           .error('Data is currently unavailable for this country', 1.5)
-          .then(() => message.info('If this issue persists, *something*', 2))
+          .then(() =>
+            message.info(
+              'If this issue persists, visit the extension\'s support section on the Chrome Webstore',
+              3
+            )
+          )
       } else {
         console.log(countryData)
         this.setState(
@@ -129,7 +136,7 @@ class CountryDisplay extends Component {
             slugs: [...currentSlugs, slug],
           },
           () => {
-            chrome.storage.sync.set({ 'slugs': this.state.slugs }, () => {
+            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
               message
                 .success('Added to your list', 1)
                 .then(console.log('Cache now consists of ' + this.state.slugs))
@@ -152,7 +159,7 @@ class CountryDisplay extends Component {
         slugs: currentSlugs.filter((item) => item !== slug),
       },
       () => {
-        chrome.storage.sync.set({ 'slugs': this.state.slugs }, () => {
+        chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
           message
             .success('Removed from your list', 1)
             .then(console.log('Cache now consists of ' + this.state.slugs))
