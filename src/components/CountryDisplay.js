@@ -1,10 +1,12 @@
 /* global chrome */
 
 import React, { Component } from 'react'
-import { AutoComplete, Badge, Button, Table, message, Popconfirm } from 'antd'
+import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry, checkIfMissing } from '../api/data'
+// import { Button } from 'antd 
+// for testing Chrome Storage/Cache
 
 const defaultCountries = ['united-kingdom', 'united-states']
 
@@ -235,18 +237,6 @@ class CountryDisplay extends Component {
           }}
           pagination={false}
         />
-        <Button
-          type='primary'
-          onClick={(event) => {
-            chrome.storage.sync.remove('slugs', function () {
-              message
-                .warn('Cleared Cache', 2)
-                .then(console.log('Cache cleared'))
-            })
-          }}
-          danger>
-          Clear Cache
-        </Button>
       </>
     )
   }
