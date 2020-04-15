@@ -111,10 +111,8 @@ class CountryDisplay extends Component {
   }
 
   async addCountry(slug) {
-    const currentData = [...this.state.data]
-    const currentCount = this.state.count
-    const currentSlugs = [...this.state.slugs]
-    if (currentSlugs.includes(slug)) {
+    const { data, count, slugs } = this.state
+    if (slugs.includes(slug)) {
       message.info('Country already exists in your list', 1)
     } else {
       let countryData = await requestDataByCountry(slug)
@@ -123,7 +121,7 @@ class CountryDisplay extends Component {
           .error('Data is currently unavailable for this country', 1.5)
           .then(() =>
             message.info(
-              'If this issue persists, visit the extension\'s support section on the Chrome Webstore',
+              "If this issue persists, visit the extension's support section on the Chrome Webstore",
               3
             )
           )
@@ -131,9 +129,9 @@ class CountryDisplay extends Component {
         console.log(countryData)
         this.setState(
           {
-            data: [...currentData, countryData],
-            count: currentCount + 1,
-            slugs: [...currentSlugs, slug],
+            data: [...data, countryData],
+            count: count + 1,
+            slugs: [...slugs, slug],
           },
           () => {
             chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
@@ -148,15 +146,12 @@ class CountryDisplay extends Component {
   }
 
   deleteCountry(slug) {
-    console.log(slug)
-    const currentData = [...this.state.data]
-    const currentCount = this.state.count
-    const currentSlugs = [...this.state.slugs]
+    const { data, count, slugs } = this.state
     this.setState(
       {
-        data: currentData.filter((item) => item.key !== slug),
-        count: currentCount - 1,
-        slugs: currentSlugs.filter((item) => item !== slug),
+        data: data.filter((item) => item.key !== slug),
+        count: count - 1,
+        slugs: slugs.filter((item) => item !== slug),
       },
       () => {
         chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
