@@ -129,13 +129,13 @@ class CountryDisplay extends Component {
     if (count == 5) {
       message
         .warn(
-          'Currently only support 5 countries to be added to your list',
-          1.5
+          'COVID-19 Footprint currently only supports 5 countries to be added to your list',
+          2.5
         )
         .then(() =>
           message.info(
-            'Look out for future version where this feature may be added 🚀',
-            1.5
+            'Look out for future versions for feature enhancements 🚀',
+            2.5
           )
         )
     } else {
@@ -227,10 +227,17 @@ class CountryDisplay extends Component {
           style={{
             width: '100%',
             marginTop: '3.7%',
+            marginBottom: '3.7%',
           }}
           pagination={false}
         />
-        <Button
+      </>
+    )
+  }
+
+  // For testing Chrome Storage
+  /*
+    <Button
           type='primary'
           onClick={(event) => {
             chrome.storage.sync.remove('slugs', function () {
@@ -243,13 +250,6 @@ class CountryDisplay extends Component {
         >
           Clear Cache
         </Button>
-      </>
-    )
-  }
-
-  // For testing Chrome Storage
-  /*
-  
   */
 }
 

@@ -1,13 +1,14 @@
-import React, { Component } from 'react'
-import { Layout } from 'antd'
+import React, {Component} from 'react'
+import {Layout} from 'antd'
 import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
 import CountryDisplay from './components/CountryDisplay.js'
-import { requestGlobalSummary, requestListOfCountries } from './api/data'
-import { message } from 'antd'
+import Footer from './components/Footer.js'
+import {requestGlobalSummary, requestListOfCountries} from './api/data'
+import {message} from 'antd'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
-const { Content } = Layout
+const {Content} = Layout
 
 class App extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class App extends Component {
 
   render() {
     return (
-      <Layout style={{ padding: '1%' }}>
+      <Layout style={{padding: '1%'}}>
         <Content
           className='site-layout-background'
           style={{
@@ -48,6 +49,13 @@ class App extends Component {
             <Header />
             <DataHeader summary={this.state.globalSummary} />
             <CountryDisplay options={this.state.countries} />
+            <Footer
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            />
           </div>
         </Content>
       </Layout>
