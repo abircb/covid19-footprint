@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "COVID-19 Footprint|Coronavirus Live Tracker",
+  "name": "COVID-19 Footprint | Coronavirus Live Tracker",
   "author": "Abir Bhushan",
   "description": "COVID-19 Footprint provides real-time global and regional data about the novel Coronavirus outbreak.",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "icons": {
     "128": "icons/128.png",
     "48": "icons/48.png",
@@ -16,7 +16,7 @@
       "48": "icons/48.png",
       "16": "icons/16.png"
     },
-    "default_title": "COVID-19 Footprint|Coronavirus Live Tracker",
+    "default_title": "COVID-19 Footprint | Coronavirus Live Tracker",
     "default_popup": "index.html"
   },
   "permissions": ["storage"],
