@@ -17,7 +17,7 @@ class LoadingCard extends React.Component {
 
     return (
       <div>
-        <Card style={{ width: '100%' }} loading={loading}>
+        <Card style={{ width: '100%', paddingTop: '2%' }} loading={loading}>
           <Meta
             avatar={
               <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
