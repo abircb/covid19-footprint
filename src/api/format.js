@@ -1,4 +1,4 @@
-const suffix = ['K', 'M', 'B'] // Unlikely for any of the data to go beyond a billion
+const suffix = ['K', 'M', 'B'] // Unlikely for any of the data to go beyond the billions
 
 /**
  * Converts a number to its Compact Number Format representation

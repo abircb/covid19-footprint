@@ -2,7 +2,11 @@ import { Card, Row, Col } from 'antd'
 import React, { Component } from 'react'
 import LoadingCard from '../components/LoadingCard'
 import { formatNum } from '../api/format'
-import { ExclamationCircleOutlined, ForkOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  ForkOutlined,
+  CheckCircleOutlined,
+} from '@ant-design/icons'
 
 const style = { textAlign: 'center' }
 

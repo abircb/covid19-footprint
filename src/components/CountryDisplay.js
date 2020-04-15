@@ -5,7 +5,7 @@ import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
 import { CloseOutlined } from '@ant-design/icons'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry, checkIfMissing } from '../api/data'
-// import { Button } from 'antd 
+// import { Button } from 'antd
 // for testing Chrome Storage/Cache
 
 const defaultCountries = ['united-kingdom', 'united-states']
@@ -69,19 +69,18 @@ class CountryDisplay extends Component {
 
   /**
      * componentDidMount for React production build
-     
-      componentDidMount() {
-        let defaultData = []
-        let countryData = null
-        this.state.slugs.forEach(async (slug) => {
-          countryData = await requestDataByCountry(slug)
-          defaultData.push(countryData)
-        })
-        console.log(defaultData)
-        this.setState({
-          data: defaultData,
-        })
-      }
+        componentDidMount() {
+          let defaultData = []
+          let countryData = null
+          this.state.slugs.forEach(async (slug) => {
+            countryData = await requestDataByCountry(slug)
+            defaultData.push(countryData)
+          })
+          console.log(defaultData)
+          this.setState({
+            data: defaultData,
+          })
+        }
     */
 
   componentDidMount() {
@@ -129,15 +128,9 @@ class CountryDisplay extends Component {
     const { data, count, slugs } = this.state
     if (count == 5) {
       message
-        .warn(
-          'COVID-19 Footprint currently only supports 5 countries to be added to your list',
-          2.5
-        )
+        .warn('COVID-19 Footprint currently only supports 5 countries to be added to your list', 2.5)
         .then(() =>
-          message.info(
-            'Look out for future versions for feature enhancements 🚀',
-            2.5
-          )
+          message.info('Look out for future versions for feature enhancements 🚀', 2.5)
         )
     } else {
       if (slugs.includes(slug)) {
@@ -148,10 +141,7 @@ class CountryDisplay extends Component {
           message
             .error('Data is currently unavailable for this country', 1.5)
             .then(() =>
-              message.info(
-                'If this issue persists, visit the support section on the Chrome Webstore',
-                3
-              )
+              message.info('If this issue persists, visit the support section on the Chrome Webstore', 3)
             )
         } else {
           console.log(countryData)
@@ -165,9 +155,7 @@ class CountryDisplay extends Component {
               chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
                 message
                   .success('Added to your list', 1)
-                  .then(
-                    console.log('Cache now consists of ' + this.state.slugs)
-                  )
+                  .then(function() {console.log('Cache now consists of ' + this.state.slugs)})
               })
             }
           )
@@ -188,7 +176,7 @@ class CountryDisplay extends Component {
         chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
           message
             .success('Removed from your list', 1)
-            .then(console.log('Cache now consists of ' + this.state.slugs))
+            .then(function() {console.log('Cache now consists of ' + this.state.slugs)})
         })
       }
     )
@@ -245,7 +233,7 @@ class CountryDisplay extends Component {
       type="primary"
       onClick={(event) => {
         chrome.storage.sync.remove("slugs", function () {
-          message.warn("Cleared Cache", 2).then(console.log("Cache cleared"));
+          message.warn("Cleared Cache", 2).then(function() {console.log("Cache cleared")});
         });
       }}
       danger
