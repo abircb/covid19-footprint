@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Typography } from 'antd'
+import { Layout, Typography, message } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
 import CountryDisplay from './components/CountryDisplay.js'
@@ -28,6 +28,12 @@ class App extends Component {
       countries: countries,
       globalSummary: globalSummary,
     })
+  }
+
+  componentDidUpdate() {
+    if(this.state.countries && this.state.globalSummary) {
+      message.success('Retrieved latest data', 1)
+    }
   }
 
   render() {

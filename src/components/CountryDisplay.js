@@ -207,8 +207,6 @@ class CountryDisplay extends Component {
         </>
       )
     }
-    console.log(this.state.count)
-    message.success('Retrieved latest data', 1)
     return (
       <>
         <AutoComplete
