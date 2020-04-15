@@ -155,7 +155,7 @@ class CountryDisplay extends Component {
               chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
                 message
                   .success('Added to your list', 1)
-                  .then(function() {console.log('Cache now consists of ' + this.state.slugs)})
+                  .then(() => console.log('Cache now consists of ' + this.state.slugs))
               })
             }
           )
@@ -176,7 +176,7 @@ class CountryDisplay extends Component {
         chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
           message
             .success('Removed from your list', 1)
-            .then(function() {console.log('Cache now consists of ' + this.state.slugs)})
+            .then(() => console.log('Cache now consists of ' + this.state.slugs))
         })
       }
     )
@@ -233,7 +233,7 @@ class CountryDisplay extends Component {
       type="primary"
       onClick={(event) => {
         chrome.storage.sync.remove("slugs", function () {
-          message.warn("Cleared Cache", 2).then(function() {console.log("Cache cleared")});
+          message.warn("Cleared Cache", 2).then(() => {console.log("Cache cleared")});
         });
       }}
       danger
