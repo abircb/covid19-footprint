@@ -1,17 +1,25 @@
-import React, {Component} from 'react'
-import {Row, Col} from 'antd'
-import {GithubOutlined, MailOutlined} from '@ant-design/icons'
+import React, { Component } from 'react'
+import { Row, Col } from 'antd'
+import { ApiFilled, GithubFilled, MailOutlined } from '@ant-design/icons'
 
 class Footer extends Component {
   render() {
     return (
-      <Row gutter={2} justify={'center'} style={{textAlign: 'center'}}>
+      <Row gutter={2} justify={'center'} style={{ textAlign: 'center' }}>
+        <Col span={2}>
+          <a
+            href={
+              'https://documenter.getpostman.com/view/10808728/SzS8rjbc?version=latest'
+            }
+            target={'_blank'}>
+            <ApiFilled />
+          </a>
+        </Col>
         <Col span={2}>
           <a
             href={'https://github.com/abircb/covid19-footprint'}
-            target={'_blank'}
-          >
-            <GithubOutlined />
+            target={'_blank'}>
+            <GithubFilled />
           </a>
         </Col>
         <Col span={2}>
