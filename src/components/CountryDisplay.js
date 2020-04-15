@@ -57,8 +57,7 @@ class CountryDisplay extends Component {
         render: (text, record) => (
           <Popconfirm
             title='Are you sure you want to remove this country?'
-            onConfirm={() => this.deleteCountry(record.key)}
-          >
+            onConfirm={() => this.deleteCountry(record.key)}>
             <CloseOutlined />
           </Popconfirm>
         ),
@@ -200,9 +199,14 @@ class CountryDisplay extends Component {
       !this.state.data ||
       this.state.data.length !== this.state.count
     ) {
-      return <LoadingCard></LoadingCard>
+      return (
+        <>
+          <LoadingCard />
+        </>
+      )
     }
     console.log(this.state.count)
+    message.success('Retrieved latest data', 1)
     return (
       <>
         <AutoComplete
@@ -231,13 +235,7 @@ class CountryDisplay extends Component {
           }}
           pagination={false}
         />
-      </>
-    )
-  }
-
-  // For testing Chrome Storage
-  /*
-    <Button
+        <Button
           type='primary'
           onClick={(event) => {
             chrome.storage.sync.remove('slugs', function () {
@@ -246,10 +244,26 @@ class CountryDisplay extends Component {
                 .then(console.log('Cache cleared'))
             })
           }}
-          danger
-        >
+          danger>
           Clear Cache
         </Button>
+      </>
+    )
+  }
+
+  // For testing Chrome Storage
+  /*
+    <Button
+      type="primary"
+      onClick={(event) => {
+        chrome.storage.sync.remove("slugs", function () {
+          message.warn("Cleared Cache", 2).then(console.log("Cache cleared"));
+        });
+      }}
+      danger
+    >
+      Clear Cache
+    </Button>
   */
 }
 

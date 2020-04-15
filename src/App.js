@@ -5,7 +5,6 @@ import Header from './components/Header.js'
 import CountryDisplay from './components/CountryDisplay.js'
 import Footer from './components/Footer.js'
 import {requestGlobalSummary, requestListOfCountries} from './api/data'
-import {message} from 'antd'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
 const {Content} = Layout
@@ -26,12 +25,6 @@ class App extends Component {
       countries: countries,
       globalSummary: globalSummary,
     })
-  }
-
-  componentDidUpdate() {
-    if (this.state.globalSummary && this.state.countries) {
-      message.success('Retrieved latest data', 1)
-    }
   }
 
   render() {
