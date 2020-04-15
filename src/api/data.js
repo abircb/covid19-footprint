@@ -3,14 +3,14 @@ const SERVER = 'https://api.covid19api.com/'
 
 /**
  * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the Postman API
- * @returns {Promise} Promise object with latest data
+ * @returns {Promise} Promise object with latest data for all countries
  */
-function requestSummary() {
+function requestGlobalData() {
   return new Promise((resolve, reject) => {
     fetch(SERVER + 'summary')
       .then(async (res) => {
         let json = await res.json()
-        resolve(json['Global'])
+        resolve(json)
       })
       .catch((e) => {
         reject(e)
@@ -20,8 +20,17 @@ function requestSummary() {
   })
 }
 
+
 /**
- * Pulls all locations from the Tracker API and filters out unique country names
+ * @param {Object} json COVID-19 Data for all countries
+ * @returns {Object} The Global Summary - total number of confirmed, recovered, deaths in the world
+ */
+function filterGlobalSummary(json) {
+  return json['Global']
+}
+
+/**
+ * Pulls all locations from the Postman API and filters out unique country names
  * @returns {Promise} An array of objects containing country names
  */
 function requestListOfCountries() {
@@ -104,4 +113,4 @@ function deltaCases(a, b) {
   return formatStat(((a - b) / b) * 100)
 }
 
-export { requestDataByCountry, requestSummary, requestListOfCountries }
+export { requestDataByCountry, requestGlobalData, requestListOfCountries, filterGlobalSummary }
