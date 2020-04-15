@@ -20,7 +20,6 @@ function requestGlobalData() {
   })
 }
 
-
 /**
  * @param {Object} json COVID-19 Data for all countries
  * @returns {Object} The Global Summary - total number of confirmed, recovered, deaths in the world
@@ -44,6 +43,17 @@ function requestListOfCountries() {
             value: dataPoint['Country'],
             slug: dataPoint['Slug'],
           })
+        })
+        countries.sort(function (a, b) {
+          let x = a.value.toLowerCase()
+          let y = b.value.toLowerCase()
+          if (x < y) {
+            return -1
+          }
+          if (x > y) {
+            return 1
+          }
+          return 0
         })
         resolve(countries)
       })
@@ -113,4 +123,9 @@ function deltaCases(a, b) {
   return formatStat(((a - b) / b) * 100)
 }
 
-export { requestDataByCountry, requestGlobalData, requestListOfCountries, filterGlobalSummary }
+export {
+  requestDataByCountry,
+  requestGlobalData,
+  requestListOfCountries,
+  filterGlobalSummary,
+}
