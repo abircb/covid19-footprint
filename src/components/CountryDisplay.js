@@ -56,11 +56,7 @@ class CountryDisplay extends Component {
         render: (text, record) => (
           <Popconfirm
             title='Are you sure you want to remove this country?'
-            onConfirm={() =>
-              this.deleteCountry(record.key, function () {
-                console.log('Deleted' + record.key)
-              })
-            }
+            onConfirm={() => this.deleteCountry(record.key)}
           >
             <i className='tim-icons icon-simple-remove' />
           </Popconfirm>
@@ -127,42 +123,58 @@ class CountryDisplay extends Component {
     })
   }
 
-  async addCountry(slug, callback) {
+  async addCountry(slug) {
     const { data, count, slugs } = this.state
-    if (slugs.includes(slug)) {
-      message.info('Country already exists in your list', 1)
-    } else {
-      let countryData = await requestDataByCountry(slug)
-      if (checkIfMissing(countryData)) {
-        message
-          .error('Data is currently unavailable for this country', 1.5)
-          .then(() =>
-            message.info(
-              'If this issue persists, visit the support section on the Chrome Webstore',
-              3
-            )
-          )
-      } else {
-        console.log(countryData)
-        this.setState(
-          {
-            data: [...data, countryData],
-            count: count + 1,
-            slugs: [...slugs, slug],
-          },
-          () => {
-            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-              message
-                .success('Added to your list', 1)
-                .then(console.log('Cache now consists of ' + this.state.slugs))
-            })
-          }
+    if (count == 5) {
+      message
+        .warn(
+          'Currently only support 5 countries to be added to your list',
+          1.5
         )
+        .then(() =>
+          message.info(
+            'Look out for future version where this feature may be added 🚀',
+            1.5
+          )
+        )
+    } else {
+      if (slugs.includes(slug)) {
+        message.info('Country already exists in your list', 1)
+      } else {
+        let countryData = await requestDataByCountry(slug)
+        if (checkIfMissing(countryData)) {
+          message
+            .error('Data is currently unavailable for this country', 1.5)
+            .then(() =>
+              message.info(
+                'If this issue persists, visit the support section on the Chrome Webstore',
+                3
+              )
+            )
+        } else {
+          console.log(countryData)
+          this.setState(
+            {
+              data: [...data, countryData],
+              count: count + 1,
+              slugs: [...slugs, slug],
+            },
+            () => {
+              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+                message
+                  .success('Added to your list', 1)
+                  .then(
+                    console.log('Cache now consists of ' + this.state.slugs)
+                  )
+              })
+            }
+          )
+        }
       }
     }
   }
 
-  deleteCountry(slug, callback) {
+  deleteCountry(slug) {
     const { data, count, slugs } = this.state
     this.setState(
       {
@@ -189,6 +201,7 @@ class CountryDisplay extends Component {
     ) {
       return <LoadingCard></LoadingCard>
     }
+    console.log(this.state.count)
     return (
       <>
         <AutoComplete
@@ -203,9 +216,7 @@ class CountryDisplay extends Component {
           }
           onSelect={(value, option) => {
             console.log(option)
-            this.addCountry(option.slug, function () {
-              console.log('Added' + option.slug)
-            })
+            this.addCountry(option.slug)
           }}
           allowClear={true}
         />
@@ -216,7 +227,7 @@ class CountryDisplay extends Component {
             width: '100%',
             marginTop: '3.7%',
           }}
-          pagination={{ pageSize: 10 }}
+          pagination={false}
         />
         <Button
           type='primary'

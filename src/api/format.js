@@ -1,4 +1,4 @@
-const suffix = ["K", "M", "B"]; // Unlikely for any of the data to go beyond a billion
+const suffix = ['K', 'M', 'B'] // Unlikely for any of the data to go beyond a billion
 
 /**
  * Converts a number to its Compact Number Format representation
@@ -8,29 +8,40 @@ const suffix = ["K", "M", "B"]; // Unlikely for any of the data to go beyond a b
  */
 function formatNum(num) {
   if (num / 1e9 >= 1) {
-    return (num / 1e9).toFixed(1).toString() + suffix[2];
+    return (num / 1e9).toFixed(1).toString() + suffix[2]
   } else if (num / 1e6 >= 1) {
-    return (num / 1e6).toFixed(1).toString() + suffix[1];
+    return (num / 1e6).toFixed(1).toString() + suffix[1]
   } else if (num / 1000 >= 1) {
-    return (num / 1000).toFixed(1).toString() + suffix[0];
+    return (num / 1000).toFixed(1).toString() + suffix[0]
   } else {
-    return num.toFixed(1).toString();
+    return num.toString()
   }
 }
 
 /**
  * Rounds the number to 1 d.p and adds a positive/negative sign (if non-zero) to it
- * @param {Number} percent 
+ * @param {Number} percent
  * @returns {String}
  */
 function formatStat(percent) {
   if (percent < 0) {
-    return '-' + formatNum(percent) + '%'
+    return '-' + stringify(percent) + '%'
   } else if (percent > 0) {
-    return '+' + formatNum(percent) + '%'
+    return '+' + stringify(percent) + '%'
   } else {
     return '0%'
   }
 }
 
-export { formatNum, formatStat };
+function stringify(percent) {
+  // Unlikely for any stat to be beyond the millions (if even a million)
+  if (percent / 1e6 >= 1) {
+    return (percent / 1e6).toFixed(1).toString() + suffix[1]
+  } else if (percent / 1000 >= 1) {
+    return (percent / 1000).toFixed(1).toString() + suffix[0]
+  } else {
+    return percent.toFixed(1).toString()
+  }
+}
+
+export { formatNum, formatStat }
