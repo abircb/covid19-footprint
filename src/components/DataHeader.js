@@ -2,6 +2,7 @@ import { Card, Row, Col } from 'antd'
 import React, { Component } from 'react'
 import LoadingCard from '../components/LoadingCard'
 import { formatNum } from '../api/format'
+import { ExclamationCircleOutlined, ForkOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const style = { textAlign: 'center' }
 
@@ -16,19 +17,19 @@ class DataHeader extends Component {
         <Row gutter={8} style={style}>
           <Col span={8}>
             <Card title='Confirmed' bordered={true}>
-              <i className='tim-icons icon-world' />
+              <ForkOutlined style={{ color: '#2db7f5' }} />
               <div style={style}>{formatNum(summary.confirmed)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Recovered' bordered={true}>
-              <i className='tim-icons icon-check-2' />
+              <CheckCircleOutlined style={{ color: '#87d068' }} />
               <div style={style}>{formatNum(summary.recovered)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Deaths' bordered={true}>
-              <i className='tim-icons icon-alert-circle-exc' />
+              <ExclamationCircleOutlined style={{ color: '#f50' }} />
               <div style={style}>{formatNum(summary.deaths)}</div>
             </Card>
           </Col>

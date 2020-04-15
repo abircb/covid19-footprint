@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { AutoComplete, Badge, Button, Table, message, Popconfirm } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry, checkIfMissing } from '../api/data'
 
@@ -58,7 +59,7 @@ class CountryDisplay extends Component {
             title='Are you sure you want to remove this country?'
             onConfirm={() => this.deleteCountry(record.key)}
           >
-            <i className='tim-icons icon-simple-remove' />
+            <CloseOutlined />
           </Popconfirm>
         ),
       },

@@ -7,8 +7,6 @@ import { requestGlobalSummary, requestListOfCountries } from './api/data'
 import { message } from 'antd'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
-import './assets/css/nucleo-icons.min.css'
-
 const { Content } = Layout
 
 class App extends Component {
