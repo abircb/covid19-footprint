@@ -3,7 +3,7 @@ import { Layout } from 'antd'
 import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
 import CountryDisplay from './components/CountryDisplay.js'
-import { requestGlobalData, requestListOfCountries, filterGlobalSummary } from './api/data'
+import { requestGlobalSummary, requestListOfCountries } from './api/data'
 import { message } from 'antd'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
@@ -15,25 +15,22 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      globalData: null,
       globalSummary: null,
       countries: null,
     }
   }
 
   async componentDidMount() {
-    let globalData = await requestGlobalData()
     let countries = await requestListOfCountries()
-    let globalSummary = await filterGlobalSummary(globalData)
+    let globalSummary = await requestGlobalSummary()
     this.setState({
-      globalData: globalData,
       countries: countries,
       globalSummary: globalSummary,
     })
   }
 
   componentDidUpdate() {
-    if (this.state.globalData && this.state.countries) {
+    if (this.state.globalSummary && this.state.countries) {
       message.success('Retrieved latest data', 1)
     }
   }

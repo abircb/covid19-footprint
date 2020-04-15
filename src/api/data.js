@@ -1,16 +1,23 @@
 import { formatNum, formatStat } from './format'
 const SERVER = 'https://api.covid19api.com/'
+const SERVER_2 = 'https://corona-virus-stats.herokuapp.com/api/v1/'
 
 /**
  * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the Postman API
  * @returns {Promise} Promise object with latest data for all countries
  */
-function requestGlobalData() {
+function requestGlobalSummary() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'summary')
+    fetch(SERVER_2 + 'cases/general-stats')
       .then(async (res) => {
         let json = await res.json()
-        resolve(json)
+        json = json.data
+        let summary = {
+          confirmed: parseInt(json['total_cases'].split(',').join('')),
+          recovered: parseInt(json['recovery_cases'].split(',').join('')),
+          deaths: parseInt(json['death_cases'].split(',').join('')),
+        }
+        resolve(summary)
       })
       .catch((e) => {
         reject(e)
@@ -18,14 +25,6 @@ function requestGlobalData() {
         console.log('Network Error')
       })
   })
-}
-
-/**
- * @param {Object} json COVID-19 Data for all countries
- * @returns {Object} The Global Summary - total number of confirmed, recovered, deaths in the world
- */
-function filterGlobalSummary(json) {
-  return json['Global']
 }
 
 /**
@@ -95,7 +94,12 @@ function requestDataByCountry(slug) {
 function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
-  if (!dataPoint || !dataPoint['Confirmed'] || !dataPoint['Recovered'] || !dataPoint['Deaths']) {
+  if (
+    !dataPoint ||
+    !dataPoint['Confirmed'] ||
+    !dataPoint['Recovered'] ||
+    !dataPoint['Deaths']
+  ) {
     return {
       key: '404',
     }
@@ -126,7 +130,7 @@ function deltaCases(a, b) {
 /**
  * Checks if the data is missing values (Confirmed, Recovered, Deaths, etc.)
  * @param {Object} data Data for the country
- * @returns {Boolean} 
+ * @returns {Boolean}
  */
 function checkIfMissing(data) {
   if (data['key'] == '404') {
@@ -136,9 +140,8 @@ function checkIfMissing(data) {
 }
 
 export {
+  requestGlobalSummary,
   requestDataByCountry,
-  requestGlobalData,
   requestListOfCountries,
-  filterGlobalSummary,
   checkIfMissing,
 }

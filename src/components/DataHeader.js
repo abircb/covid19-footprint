@@ -17,19 +17,19 @@ class DataHeader extends Component {
           <Col span={8}>
             <Card title='Confirmed' bordered={true}>
               <i className='tim-icons icon-world' />
-              <div style={style}>{formatNum(summary['TotalConfirmed'])}</div>
+              <div style={style}>{formatNum(summary.confirmed)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Recovered' bordered={true}>
               <i className='tim-icons icon-check-2' />
-              <div style={style}>{formatNum(summary['TotalRecovered'])}</div>
+              <div style={style}>{formatNum(summary.recovered)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Deaths' bordered={true}>
               <i className='tim-icons icon-alert-circle-exc' />
-              <div style={style}>{formatNum(summary['TotalDeaths'])}</div>
+              <div style={style}>{formatNum(summary.deaths)}</div>
             </Card>
           </Col>
         </Row>
