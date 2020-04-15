@@ -1,11 +1,11 @@
 /* global chrome */
 
 import React, { Component } from 'react'
-import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
+import { AutoComplete, Badge, Button, Table, message, Popconfirm } from 'antd'
 import LoadingCard from './LoadingCard'
 import { requestDataByCountry, checkIfMissing } from '../api/data'
 
-const defaultCountries = []
+const defaultCountries = ['united-kingdom', 'united-states']
 
 class CountryDisplay extends Component {
   constructor(props) {
@@ -103,8 +103,21 @@ class CountryDisplay extends Component {
           }
         )
       } else {
-        message.info(
-          "Embed a country's COVID-19 data using the search bar below"
+        defaultCountries.forEach(async (slug) => {
+          countryData = await requestDataByCountry(slug)
+          cacheData.push(countryData)
+        })
+        this.setState(
+          {
+            data: cacheData,
+            count: cacheData.length,
+            slugs: defaultCountries,
+          },
+          () => {
+            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+              console.log('Add default data to cache')
+            })
+          }
         )
       }
     })
@@ -121,7 +134,7 @@ class CountryDisplay extends Component {
           .error('Data is currently unavailable for this country', 1.5)
           .then(() =>
             message.info(
-              "If this issue persists, visit the extension's support section on the Chrome Webstore",
+              "If this issue persists, visit the support section on the Chrome Webstore",
               3
             )
           )
@@ -194,6 +207,18 @@ class CountryDisplay extends Component {
             marginTop: '3.7%',
           }}
         />
+        <Button 
+        type="primary" 
+        onClick={(event) => {
+          chrome.storage.sync.remove('slugs', function () {
+            message.warn('Cleared Cache', 2)
+            .then(console.log('Cache cleared'))
+          })
+        }}
+        danger>
+          Clear Cache
+        </Button>
+        
       </>
     )
   }
