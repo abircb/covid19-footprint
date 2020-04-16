@@ -49,19 +49,12 @@ class App extends Component {
         >
           <div className='container'>
             <Header />
-            <DataHeader summary={this.state.globalSummary} />
+            <DataHeader summary={this.state.globalSummary} style={{ marginTop: '2%' }} />
             <CountryDisplay options={this.state.countries} />
-            <Paragraph style={{ fontSize: '11px', textAlign: 'center'}} copyable strong>
+            <Paragraph style={{ fontSize: '11px', textAlign: 'center', color: '#fff' }} copyable>
               {getInfoBit()}
             </Paragraph>
-            <Footer
-              style={{
-                paddingTop: '2%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            />
+            <Footer />
           </div>
         </Content>
       </Layout>
