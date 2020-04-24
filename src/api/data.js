@@ -1,6 +1,6 @@
 import { formatNum, formatStat } from './format'
 const SERVER = 'https://api.covid19api.com/'
-const SERVER_2 = 'https://corona-virus-stats.herokuapp.com/api/v1/'
+const SERVER_2 = 'https://corona.lmao.ninja/v2/'
 
 /**
  * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the Postman API
@@ -8,14 +8,13 @@ const SERVER_2 = 'https://corona-virus-stats.herokuapp.com/api/v1/'
  */
 function requestGlobalSummary() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER_2 + 'cases/general-stats')
+    fetch(SERVER_2 + 'all')
       .then(async (res) => {
         let json = await res.json()
-        json = json.data
         let summary = {
-          confirmed: parseInt(json['total_cases'].split(',').join('')),
-          recovered: parseInt(json['recovery_cases'].split(',').join('')),
-          deaths: parseInt(json['death_cases'].split(',').join('')),
+          confirmed: json['cases'],
+          recovered: json['recovered'],
+          deaths: json['deaths'],
         }
         resolve(summary)
       })
