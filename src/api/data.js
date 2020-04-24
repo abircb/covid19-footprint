@@ -3,8 +3,8 @@ const SERVER = 'https://api.covid19api.com/'
 const SERVER_2 = 'https://corona.lmao.ninja/v2/'
 
 /**
- * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the Postman API
- * @returns {Promise} Promise object with latest data for all countries
+ * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the 'Novel COVID API'
+ * @returns {Promise} Promise object with the latest global data
  */
 function requestGlobalSummary() {
   return new Promise((resolve, reject) => {
@@ -27,7 +27,7 @@ function requestGlobalSummary() {
 }
 
 /**
- * Pulls all locations from the Postman API and filters out unique country names
+ * Pulls all locations from the 'Coronavirus COVID19 API' and filters out unique country names
  * @returns {Promise} An array of objects containing country names
  */
 function requestListOfCountries() {
@@ -66,7 +66,7 @@ function requestListOfCountries() {
 /**
  * Pulls latest number of confirmed cases, deaths, and recovered by country
  * API Query Parameter: slug
- * @param {ID} slug The country's unique API slug
+ * @param {String} slug The country's unique API slug
  * @returns {Promise} Promise object with latest data of the country
  */
 function requestDataByCountry(slug) {
