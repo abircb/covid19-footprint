@@ -1,4 +1,4 @@
-import { formatNum, formatStat } from './format'
+import {formatNum, formatStat} from './format'
 const SERVER = 'https://api.covid19api.com/'
 const SERVER_2 = 'https://corona.lmao.ninja/v2/'
 
@@ -93,12 +93,7 @@ function requestDataByCountry(slug) {
 function parseCountryData(data, slug) {
   let last = data.length - 1
   let dataPoint = data[last]
-  if (
-    !dataPoint ||
-    !dataPoint['Confirmed'] ||
-    !dataPoint['Recovered'] ||
-    !dataPoint['Deaths']
-  ) {
+  if (!dataPoint || !dataPoint['Confirmed'] || dataPoint['Confirmed'] === 0) {
     return {
       key: '404',
     }
@@ -110,7 +105,10 @@ function parseCountryData(data, slug) {
       country: dataPoint['Country'],
       delta: delta,
       confirmed: formatNum(dataPoint['Confirmed']),
-      recovered: formatNum(dataPoint['Recovered']),
+      recovered:
+        dataPoint['Recovered'] === 0
+          ? 'Unknown'
+          : formatNum(dataPoint['Recovered']),
       deaths: formatNum(dataPoint['Deaths']),
     }
   }

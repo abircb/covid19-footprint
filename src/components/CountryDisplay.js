@@ -1,10 +1,10 @@
 /* global chrome */
 
-import React, { Component } from 'react'
-import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
-import { CloseOutlined } from '@ant-design/icons'
+import React, {Component} from 'react'
+import {AutoComplete, Badge, Table, message, Popconfirm} from 'antd'
+import {CloseOutlined} from '@ant-design/icons'
 import LoadingCard from './LoadingCard'
-import { requestDataByCountry, checkIfMissing } from '../api/data'
+import {requestDataByCountry, checkIfMissing} from '../api/data'
 // import { Button } from 'antd
 // for testing Chrome Storage/Cache
 
@@ -33,7 +33,7 @@ class CountryDisplay extends Component {
             <Badge
               count={delta}
               className='site-badge-count-4'
-              style={{ backgroundColor: '#108ee9' }}
+              style={{backgroundColor: '#108ee9'}}
             />
           )
         },
@@ -59,7 +59,8 @@ class CountryDisplay extends Component {
         render: (text, record) => (
           <Popconfirm
             title='Are you sure you want to remove this country?'
-            onConfirm={() => this.deleteCountry(record.key)}>
+            onConfirm={() => this.deleteCountry(record.key)}
+          >
             <CloseOutlined />
           </Popconfirm>
         ),
@@ -99,7 +100,7 @@ class CountryDisplay extends Component {
             count: result.slugs.length,
             slugs: result.slugs,
           },
-          function () {
+          () => {
             console.log('Displaying cached countries')
           }
         )
@@ -115,7 +116,7 @@ class CountryDisplay extends Component {
             slugs: defaultCountries,
           },
           () => {
-            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+            chrome.storage.sync.set({slugs: this.state.slugs}, () => {
               console.log('Add default data to cache')
             })
           }
@@ -125,24 +126,16 @@ class CountryDisplay extends Component {
   }
 
   async addCountry(slug) {
-    const { data, count, slugs } = this.state
+    const {data, count, slugs} = this.state
     if (count == 5) {
-      message
-        .warn('COVID-19 Footprint currently only supports 5 countries to be added to your list', 2.5)
-        .then(() =>
-          message.info('Look out for future versions for feature enhancements 🚀', 2.5)
-        )
+      this.dataOverflowMessage()
     } else {
       if (slugs.includes(slug)) {
         message.info('Country already exists in your list', 1)
       } else {
         let countryData = await requestDataByCountry(slug)
         if (checkIfMissing(countryData)) {
-          message
-            .error('Data is currently unavailable for this country', 1.5)
-            .then(() =>
-              message.info('If this issue persists, visit the support section on the Chrome Webstore', 3)
-            )
+          this.missingDataMessage()
         } else {
           console.log(countryData)
           this.setState(
@@ -152,10 +145,12 @@ class CountryDisplay extends Component {
               slugs: [...slugs, slug],
             },
             () => {
-              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+              chrome.storage.sync.set({slugs: this.state.slugs}, () => {
                 message
                   .success('Added to your list', 1)
-                  .then(() => console.log('Cache now consists of ' + this.state.slugs))
+                  .then(() =>
+                    console.log('Cache now consists of ' + this.state.slugs)
+                  )
               })
             }
           )
@@ -165,7 +160,7 @@ class CountryDisplay extends Component {
   }
 
   deleteCountry(slug) {
-    const { data, count, slugs } = this.state
+    const {data, count, slugs} = this.state
     this.setState(
       {
         data: data.filter((item) => item.key !== slug),
@@ -173,17 +168,44 @@ class CountryDisplay extends Component {
         slugs: slugs.filter((item) => item !== slug),
       },
       () => {
-        chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+        chrome.storage.sync.set({slugs: this.state.slugs}, () => {
           message
             .success('Removed from your list', 1)
-            .then(() => console.log('Cache now consists of ' + this.state.slugs))
+            .then(() =>
+              console.log('Cache now consists of ' + this.state.slugs)
+            )
         })
       }
     )
   }
 
+  dataOverflowMessage = () => {
+    message
+      .warn(
+        'COVID-19 Footprint currently only supports 5 countries to be added to your list',
+        2.5
+      )
+      .then(() =>
+        message.info(
+          'Look out for future versions for feature enhancements 🚀',
+          2.5
+        )
+      )
+  }
+
+  missingDataMessage = () => {
+    message
+      .error('Data is currently unavailable for this country', 1.5)
+      .then(() =>
+        message.info(
+          'If this issue persists, visit the support section on the Chrome Webstore',
+          3
+        )
+      )
+  }
+
   render() {
-    const { options } = this.props
+    const {options} = this.props
     if (
       !options ||
       !this.state.data ||
