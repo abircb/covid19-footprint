@@ -1,10 +1,10 @@
 /* global chrome */
 
-import React, {Component} from 'react'
-import {AutoComplete, Badge, Table, message, Popconfirm} from 'antd'
-import {CloseOutlined} from '@ant-design/icons'
+import React, { Component } from 'react'
+import { AutoComplete, Badge, Table, message, Popconfirm } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
 import LoadingCard from './LoadingCard'
-import {requestDataByCountry, checkIfMissing} from '../api/data'
+import { requestDataByCountry, checkIfMissing } from '../api/data'
 // import { Button } from 'antd
 // for testing Chrome Storage/Cache
 
@@ -33,7 +33,7 @@ class CountryDisplay extends Component {
             <Badge
               count={delta}
               className='site-badge-count-4'
-              style={{backgroundColor: '#108ee9'}}
+              style={{ backgroundColor: '#108ee9' }}
             />
           )
         },
@@ -92,6 +92,7 @@ class CountryDisplay extends Component {
         console.log('Cache currently consists of' + result.slugs)
         result.slugs.forEach(async (slug) => {
           countryData = await requestDataByCountry(slug)
+          console.log(countryData)
           cacheData.push(countryData)
         })
         this.setState(
@@ -116,7 +117,7 @@ class CountryDisplay extends Component {
             slugs: defaultCountries,
           },
           () => {
-            chrome.storage.sync.set({slugs: this.state.slugs}, () => {
+            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
               console.log('Add default data to cache')
             })
           }
@@ -126,7 +127,7 @@ class CountryDisplay extends Component {
   }
 
   async addCountry(slug) {
-    const {data, count, slugs} = this.state
+    const { data, count, slugs } = this.state
     if (count == 5) {
       this.dataOverflowMessage()
     } else {
@@ -145,7 +146,7 @@ class CountryDisplay extends Component {
               slugs: [...slugs, slug],
             },
             () => {
-              chrome.storage.sync.set({slugs: this.state.slugs}, () => {
+              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
                 message
                   .success('Added to your list', 1)
                   .then(() =>
@@ -160,7 +161,7 @@ class CountryDisplay extends Component {
   }
 
   deleteCountry(slug) {
-    const {data, count, slugs} = this.state
+    const { data, count, slugs } = this.state
     this.setState(
       {
         data: data.filter((item) => item.key !== slug),
@@ -168,7 +169,7 @@ class CountryDisplay extends Component {
         slugs: slugs.filter((item) => item !== slug),
       },
       () => {
-        chrome.storage.sync.set({slugs: this.state.slugs}, () => {
+        chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
           message
             .success('Removed from your list', 1)
             .then(() =>
@@ -205,7 +206,7 @@ class CountryDisplay extends Component {
   }
 
   render() {
-    const {options} = this.props
+    const { options } = this.props
     if (
       !options ||
       !this.state.data ||

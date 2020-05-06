@@ -1,4 +1,4 @@
-import {formatNum, formatStat} from './format'
+import { formatNum, formatStat } from './format'
 const SERVER = 'https://api.covid19api.com/'
 const SERVER_2 = 'https://corona.lmao.ninja/v2/'
 
@@ -98,8 +98,10 @@ function parseCountryData(data, slug) {
       key: '404',
     }
   } else {
-    let delta = deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
-    console.log(delta)
+    let delta =
+      data.length > 1
+        ? deltaCases(dataPoint['Confirmed'], data[last - 1]['Confirmed'])
+        : '0%'
     return {
       key: slug,
       country: dataPoint['Country'],
@@ -121,7 +123,12 @@ function parseCountryData(data, slug) {
  * @returns {String} The (relative) change between the two numbers, formatted according to the display requirements
  */
 function deltaCases(a, b) {
-  return formatStat(((a - b) / b) * 100)
+  let delta = ((a - b) / b) * 100
+  if (delta < -1) {
+    return 'Disputed'
+  } else {
+    return formatStat(delta)
+  }
 }
 
 /**

@@ -24,10 +24,10 @@ function formatNum(num) {
  * @returns {String}
  */
 function formatStat(percent) {
-  if (percent < 0) {
-    return '-' + stringify(Math.abs(percent)) + '%'
-  } else if (percent > 0) {
+  if (percent > 0) {
     return '+' + stringify(percent) + '%'
+  } else if (percent < 0) {
+    return '-' + stringify(Math.abs(percent)) + '%'
   } else {
     return '0%'
   }
