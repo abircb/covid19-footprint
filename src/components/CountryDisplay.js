@@ -91,9 +91,12 @@ class CountryDisplay extends Component {
       if (result.slugs) {
         console.log('Cache currently consists of' + result.slugs)
         result.slugs.forEach(async (slug) => {
-          countryData = await requestDataByCountry(slug)
-          console.log(countryData)
-          cacheData.push(countryData)
+          try {
+            countryData = await requestDataByCountry(slug)
+            cacheData.push(countryData)
+          } catch (err) {
+            message.error('A Network Error occurred', 1.5)
+          }
         })
         this.setState(
           {
@@ -107,8 +110,12 @@ class CountryDisplay extends Component {
         )
       } else {
         defaultCountries.forEach(async (slug) => {
-          countryData = await requestDataByCountry(slug)
-          cacheData.push(countryData)
+          try {
+            countryData = await requestDataByCountry(slug)
+            cacheData.push(countryData)
+          } catch (err) {
+            message.error('A Network Error occurred', 1.5)
+          }
         })
         this.setState(
           {
@@ -134,27 +141,31 @@ class CountryDisplay extends Component {
       if (slugs.includes(slug)) {
         message.info('Country already exists in your list', 1)
       } else {
-        let countryData = await requestDataByCountry(slug)
-        if (checkIfMissing(countryData)) {
-          this.missingDataMessage()
-        } else {
-          console.log(countryData)
-          this.setState(
-            {
-              data: [...data, countryData],
-              count: count + 1,
-              slugs: [...slugs, slug],
-            },
-            () => {
-              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-                message
-                  .success('Added to your list', 1)
-                  .then(() =>
-                    console.log('Cache now consists of ' + this.state.slugs)
-                  )
-              })
-            }
-          )
+        try {
+          let countryData = await requestDataByCountry(slug)
+          if (checkIfMissing(countryData)) {
+            this.missingDataMessage()
+          } else {
+            console.log(countryData)
+            this.setState(
+              {
+                data: [...data, countryData],
+                count: count + 1,
+                slugs: [...slugs, slug],
+              },
+              () => {
+                chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+                  message
+                    .success('Added to your list', 1)
+                    .then(() =>
+                      console.log('Cache now consists of ' + this.state.slugs)
+                    )
+                })
+              }
+            )
+          }
+        } catch (err) {
+          message.error('A Network Error occurred', 1.5)
         }
       }
     }

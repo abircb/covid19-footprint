@@ -22,16 +22,20 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    let countries = await requestListOfCountries()
-    let globalSummary = await requestGlobalSummary()
-    this.setState({
-      countries: countries,
-      globalSummary: globalSummary,
-    })
+    try {
+      let countries = await requestListOfCountries()
+      let globalSummary = await requestGlobalSummary()
+      this.setState({
+        countries: countries,
+        globalSummary: globalSummary,
+      })
+    } catch (err) {
+      message.error('A Network Error occurred', 1.5)
+    }
   }
 
   componentDidUpdate() {
-    if(this.state.countries && this.state.globalSummary) {
+    if (this.state.countries && this.state.globalSummary) {
       message.success('Retrieved latest data', 1)
     }
   }
@@ -49,9 +53,15 @@ class App extends Component {
         >
           <div className='container'>
             <Header />
-            <DataHeader summary={this.state.globalSummary} style={{ marginTop: '2%' }} />
+            <DataHeader
+              summary={this.state.globalSummary}
+              style={{ marginTop: '2%' }}
+            />
             <CountryDisplay options={this.state.countries} />
-            <Paragraph style={{ fontSize: '11px', textAlign: 'center', color: '#fff' }} copyable>
+            <Paragraph
+              style={{ fontSize: '11px', textAlign: 'center', color: '#fff' }}
+              copyable
+            >
               {getInfoBit()}
             </Paragraph>
             <Footer />
