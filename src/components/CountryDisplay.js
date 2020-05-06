@@ -17,6 +17,7 @@ class CountryDisplay extends Component {
       data: null,
       count: null,
       slugs: null,
+      hasError: false,
     }
     this.schema = [
       {
@@ -95,7 +96,7 @@ class CountryDisplay extends Component {
             countryData = await requestDataByCountry(slug)
             cacheData.push(countryData)
           } catch (err) {
-            message.error('A Network Error occurred', 1.5)
+            this.setState({ hasError: true })
           }
         })
         this.setState(
@@ -114,7 +115,7 @@ class CountryDisplay extends Component {
             countryData = await requestDataByCountry(slug)
             cacheData.push(countryData)
           } catch (err) {
-            message.error('A Network Error occurred', 1.5)
+            this.setState({ hasError: true })
           }
         })
         this.setState(
@@ -165,7 +166,7 @@ class CountryDisplay extends Component {
             )
           }
         } catch (err) {
-          message.error('A Network Error occurred', 1.5)
+          this.setState({ hasError: true })
         }
       }
     }
@@ -228,6 +229,9 @@ class CountryDisplay extends Component {
           <LoadingCard />
         </>
       )
+    }
+    if (this.state.hasError) {
+      message.error('A Network Error occurred')
     }
     return (
       <>

@@ -18,6 +18,7 @@ class App extends Component {
     this.state = {
       globalSummary: null,
       countries: null,
+      hasError: false,
     }
   }
 
@@ -30,7 +31,7 @@ class App extends Component {
         globalSummary: globalSummary,
       })
     } catch (err) {
-      message.error('A Network Error occurred', 1.5)
+      this.setState({ hasError: true })
     }
   }
 
@@ -41,6 +42,9 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.hasError) {
+      message.error('A Network Error occurred', 1.5)
+    }
     return (
       <Layout style={{ padding: '1%' }}>
         <Content
