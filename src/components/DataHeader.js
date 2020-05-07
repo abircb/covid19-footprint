@@ -7,8 +7,7 @@ import {
   ForkOutlined,
   CheckCircleOutlined,
 } from '@ant-design/icons'
-import PropTypes from 'prop-types';
-
+import PropTypes from 'prop-types'
 
 const style = { textAlign: 'center' }
 
@@ -46,7 +45,7 @@ class DataHeader extends Component {
 }
 
 DataHeader.propTypes = {
-  summary: PropTypes.object
+  summary: PropTypes.object,
 }
 
 export default DataHeader
