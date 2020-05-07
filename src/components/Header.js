@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { Row, Col, Typography } from 'antd'
+import { Row, Col } from 'antd'
 import logo from '../assets/img/logo.png'
 import '../assets/css/Header.css'
-
-const { Title } = Typography
 
 class Header extends Component {
   render() {
