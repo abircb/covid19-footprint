@@ -136,7 +136,7 @@ class CountryDisplay extends Component {
 
   async addCountry(slug) {
     const { data, count, slugs } = this.state
-    if (count == 5) {
+    if (count === 5) {
       this.dataOverflowMessage()
     } else {
       if (slugs.includes(slug)) {

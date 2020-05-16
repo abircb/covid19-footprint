@@ -132,7 +132,7 @@ function deltaCases(a, b) {
  * @returns {Boolean}
  */
 function checkIfMissing(data) {
-  if (data['key'] == '404') {
+  if (data['key'] === '404') {
     return true
   }
   return false
