@@ -43,14 +43,9 @@ function requestListOfCountries() {
           })
         })
         countries.sort(function (a, b) {
-          let x = a.value.toLowerCase()
-          let y = b.value.toLowerCase()
-          if (x < y) {
-            return -1
-          }
-          if (x > y) {
-            return 1
-          }
+          let x = a.value.toLowerCase(), y = b.value.toLowerCase()
+          if (x < y) return -1
+          if (x > y) return 1
           return 0
         })
         resolve(countries)
@@ -71,7 +66,7 @@ function requestListOfCountries() {
  */
 function requestDataByCountry(slug) {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'total/country/' + slug)
+    fetch(SERVER + 'total/dayone/country/' + slug)
       .then(async (res) => {
         let json = await res.json()
         resolve(parseCountryData(json, slug))
