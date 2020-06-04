@@ -24,7 +24,7 @@ function formatNum(num) {
  * @returns {String}
  */
 function formatStat(percent) {
-  if (percent == 0) {
+  if (percent === 0) {
     return '0%'
   } else {
     return '+' + stringify(percent) + '%'
@@ -32,11 +32,12 @@ function formatStat(percent) {
 }
 
 /**
+ *
  * @param {Number} percent
  * @returns {String}
  */
 function stringify(percent) {
-  // Unlikely for any stat to be beyond the millions (if even a million)
+  // Unlikely for any stat to be beyond the millions (if that)
   if (percent / 1e6 >= 1) {
     return (percent / 1e6).toFixed(1).toString() + suffix[1]
   } else if (percent / 1000 >= 1) {

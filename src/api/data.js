@@ -1,20 +1,23 @@
 import { formatNum, formatStat } from './format'
 const SERVER = 'https://api.covid19api.com/'
-const SERVER_2 = 'https://corona.lmao.ninja/v2/'
 
 /**
- * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the 'Novel COVID API'
+ * Pulls Global Summary (Confirmed, Deaths, Recovered) of the pandemic from the 'Coronavirus COVID19 API'
  * @returns {Promise} Promise object with the latest global data
  */
 function requestGlobalSummary() {
   return new Promise((resolve, reject) => {
-    fetch(SERVER_2 + 'all')
+    fetch(SERVER + 'summary')
       .then(async (res) => {
         let json = await res.json()
+        json = json['Global']
         let summary = {
-          confirmed: json['cases'],
-          recovered: json['recovered'],
-          deaths: json['deaths'],
+          confirmed: json['TotalConfirmed'],
+          newConfirmed: json['NewConfirmed'],
+          recovered: json['TotalRecovered'],
+          newRecovered: json['NewRecovered'],
+          deaths: json['TotalDeaths'],
+          newDeaths: json['NewDeaths'],
         }
         resolve(summary)
       })
