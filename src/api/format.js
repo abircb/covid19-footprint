@@ -24,15 +24,17 @@ function formatNum(num) {
  * @returns {String}
  */
 function formatStat(percent) {
-  if (percent > 0) {
-    return '+' + stringify(percent) + '%'
-  } else if (percent < 0) {
-    return '-' + stringify(Math.abs(percent)) + '%'
-  } else {
+  if (percent == 0) {
     return '0%'
+  } else {
+    return '+' + stringify(percent) + '%'
   }
 }
 
+/**
+ * @param {Number} percent
+ * @returns {String}
+ */
 function stringify(percent) {
   // Unlikely for any stat to be beyond the millions (if even a million)
   if (percent / 1e6 >= 1) {

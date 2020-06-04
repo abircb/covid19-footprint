@@ -43,7 +43,8 @@ function requestListOfCountries() {
           })
         })
         countries.sort(function (a, b) {
-          let x = a.value.toLowerCase(), y = b.value.toLowerCase()
+          let x = a.value.toLowerCase(),
+            y = b.value.toLowerCase()
           if (x < y) return -1
           if (x > y) return 1
           return 0
@@ -66,7 +67,7 @@ function requestListOfCountries() {
  */
 function requestDataByCountry(slug) {
   return new Promise((resolve, reject) => {
-    fetch(SERVER + 'total/dayone/country/' + slug)
+    fetch(SERVER + 'total/country/' + slug)
       .then(async (res) => {
         let json = await res.json()
         resolve(parseCountryData(json, slug))
@@ -119,7 +120,7 @@ function parseCountryData(data, slug) {
  */
 function deltaCases(a, b) {
   let delta = ((a - b) / b) * 100
-  if (delta < -1) {
+  if (delta < 0) {
     return 'Disputed'
   } else {
     return formatStat(delta)

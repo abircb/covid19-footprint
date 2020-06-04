@@ -9,7 +9,8 @@ import {
 } from '@ant-design/icons'
 import PropTypes from 'prop-types'
 
-const style = { textAlign: 'center' }
+const totalStyle = { textAlign: 'center' }
+const deltaStyle = { textAlign: 'center', fontSize: '10px' }
 
 class DataHeader extends Component {
   render() {
@@ -19,23 +20,23 @@ class DataHeader extends Component {
     }
     return (
       <>
-        <Row gutter={8} style={style}>
+        <Row gutter={8} style={totalStyle}>
           <Col span={8}>
             <Card title='Confirmed' bordered={true}>
               <ForkOutlined style={{ color: '#2db7f5' }} />
-              <div style={style}>{formatNum(summary.confirmed)}</div>
+              <div style={totalStyle}>{formatNum(summary.confirmed)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Recovered' bordered={true}>
               <CheckCircleOutlined style={{ color: '#87d068' }} />
-              <div style={style}>{formatNum(summary.recovered)}</div>
+              <div style={totalStyle}>{formatNum(summary.recovered)}</div>
             </Card>
           </Col>
           <Col span={8}>
             <Card title='Deaths' bordered={true}>
               <ExclamationCircleOutlined style={{ color: '#f50' }} />
-              <div style={style}>{formatNum(summary.deaths)}</div>
+              <div style={totalStyle}>{formatNum(summary.deaths)}</div>
             </Card>
           </Col>
         </Row>
