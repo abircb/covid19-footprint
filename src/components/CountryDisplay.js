@@ -90,7 +90,6 @@ class CountryDisplay extends Component {
     let countryData = null
     chrome.storage.sync.get(['slugs'], (result) => {
       if (result.slugs) {
-        console.log('Cache currently consists of' + result.slugs)
         result.slugs.forEach(async (slug) => {
           try {
             countryData = await requestDataByCountry(slug)
@@ -99,16 +98,11 @@ class CountryDisplay extends Component {
             this.setState({ hasError: true })
           }
         })
-        this.setState(
-          {
-            data: cacheData,
-            count: result.slugs.length,
-            slugs: result.slugs,
-          },
-          () => {
-            console.log('Displaying cached countries')
-          }
-        )
+        this.setState({
+          data: cacheData,
+          count: result.slugs.length,
+          slugs: result.slugs,
+        })
       } else {
         defaultCountries.forEach(async (slug) => {
           try {
@@ -118,18 +112,11 @@ class CountryDisplay extends Component {
             this.setState({ hasError: true })
           }
         })
-        this.setState(
-          {
-            data: cacheData,
-            count: defaultCountries.length,
-            slugs: defaultCountries,
-          },
-          () => {
-            chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-              console.log('Add default data to cache')
-            })
-          }
-        )
+        this.setState({
+          data: cacheData,
+          count: defaultCountries.length,
+          slugs: defaultCountries,
+        })
       }
     })
   }
@@ -147,7 +134,6 @@ class CountryDisplay extends Component {
           if (checkIfMissing(countryData)) {
             this.missingDataMessage()
           } else {
-            console.log(countryData)
             this.setState(
               {
                 data: [...data, countryData],
@@ -156,11 +142,7 @@ class CountryDisplay extends Component {
               },
               () => {
                 chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-                  message
-                    .success('Added to your list', 1)
-                    .then(() =>
-                      console.log('Cache now consists of ' + this.state.slugs)
-                    )
+                  message.success('Added to your list', 1)
                 })
               }
             )
@@ -182,11 +164,7 @@ class CountryDisplay extends Component {
       },
       () => {
         chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-          message
-            .success('Removed from your list', 1)
-            .then(() =>
-              console.log('Cache now consists of ' + this.state.slugs)
-            )
+          message.success('Removed from your list', 1)
         })
       }
     )
@@ -246,7 +224,6 @@ class CountryDisplay extends Component {
             option.value.toLowerCase().indexOf(inputValue.toLowerCase()) !== -1
           }
           onSelect={(value, option) => {
-            console.log(option)
             this.addCountry(option.slug)
           }}
           allowClear={true}
