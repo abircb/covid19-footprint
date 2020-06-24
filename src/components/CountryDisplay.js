@@ -86,7 +86,6 @@ class CountryDisplay extends Component {
     */
 
   initialiseData() {
-    console.log('cdm')
     const { globalData } = this.props
     let cacheData = []
     let countryData = null
@@ -94,7 +93,6 @@ class CountryDisplay extends Component {
       if (result.slugs) {
         result.slugs.forEach((slug) => {
           countryData = requestDataByCountry(slug, globalData)
-          console.log(countryData)
           cacheData.push(countryData)
         })
         this.setState({
@@ -106,7 +104,6 @@ class CountryDisplay extends Component {
       } else {
         defaultCountries.forEach((slug) => {
           countryData = requestDataByCountry(slug, globalData)
-          console.log(countryData)
           cacheData.push(countryData)
         })
         this.setState({

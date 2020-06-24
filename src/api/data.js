@@ -14,8 +14,7 @@ function requestGlobalData() {
       })
       .catch((e) => {
         reject(e)
-        console.log(e)
-        console.log('Network Error')
+        console.error(e)
       })
   })
 }
@@ -48,7 +47,6 @@ function requestListOfCountries() {
       .catch((e) => {
         reject(e)
         console.error(e)
-        console.log('Network Error')
       })
   })
 }
