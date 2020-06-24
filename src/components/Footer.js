@@ -1,11 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'antd'
-import {
-  ApiFilled,
-  GithubFilled,
-  MailOutlined,
-  RedoOutlined,
-} from '@ant-design/icons'
+import { ApiFilled, GithubFilled, RedoOutlined } from '@ant-design/icons'
 
 class Footer extends Component {
   render() {

@@ -17,7 +17,7 @@ class CountryDisplay extends Component {
       data: null,
       count: null,
       slugs: null,
-      hasError: false,
+      initialised: false,
     }
     this.schema = [
       {
@@ -85,43 +85,42 @@ class CountryDisplay extends Component {
         }
     */
 
-  componentDidMount() {
+  initialiseData() {
+    console.log('cdm')
+    const { globalData } = this.props
     let cacheData = []
     let countryData = null
     chrome.storage.sync.get(['slugs'], (result) => {
       if (result.slugs) {
-        result.slugs.forEach(async (slug) => {
-          try {
-            countryData = await requestDataByCountry(slug)
-            cacheData.push(countryData)
-          } catch (err) {
-            this.setState({ hasError: true })
-          }
+        result.slugs.forEach((slug) => {
+          countryData = requestDataByCountry(slug, globalData)
+          console.log(countryData)
+          cacheData.push(countryData)
         })
         this.setState({
           data: cacheData,
           count: result.slugs.length,
           slugs: result.slugs,
+          initialised: true,
         })
       } else {
-        defaultCountries.forEach(async (slug) => {
-          try {
-            countryData = await requestDataByCountry(slug)
-            cacheData.push(countryData)
-          } catch (err) {
-            this.setState({ hasError: true })
-          }
+        defaultCountries.forEach((slug) => {
+          countryData = requestDataByCountry(slug, globalData)
+          console.log(countryData)
+          cacheData.push(countryData)
         })
         this.setState({
           data: cacheData,
           count: defaultCountries.length,
           slugs: defaultCountries,
+          initialised: true,
         })
       }
     })
   }
 
-  async addCountry(slug) {
+  addCountry(slug) {
+    const { globalData } = this.props
     const { data, count, slugs } = this.state
     if (count === 5) {
       this.dataOverflowMessage()
@@ -129,26 +128,22 @@ class CountryDisplay extends Component {
       if (slugs.includes(slug)) {
         message.info('Country already exists in your list', 1)
       } else {
-        try {
-          let countryData = await requestDataByCountry(slug)
-          if (checkIfMissing(countryData)) {
-            this.missingDataMessage()
-          } else {
-            this.setState(
-              {
-                data: [...data, countryData],
-                count: count + 1,
-                slugs: [...slugs, slug],
-              },
-              () => {
-                chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
-                  message.success('Added to your list', 1)
-                })
-              }
-            )
-          }
-        } catch (err) {
-          this.setState({ hasError: true })
+        let countryData = requestDataByCountry(slug, globalData)
+        if (checkIfMissing(countryData)) {
+          this.missingDataMessage()
+        } else {
+          this.setState(
+            {
+              data: [...data, countryData],
+              count: count + 1,
+              slugs: [...slugs, slug],
+            },
+            () => {
+              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+                message.success('Added to your list', 1)
+              })
+            }
+          )
         }
       }
     }
@@ -196,21 +191,15 @@ class CountryDisplay extends Component {
   }
 
   render() {
-    const { options } = this.props
-    if (
-      !options ||
-      !this.state.data ||
-      this.state.data.length !== this.state.count
-    ) {
+    const { globalData, options } = this.props
+    if (!globalData || !options) {
       return (
         <>
           <LoadingCard />
         </>
       )
     }
-    if (this.state.hasError) {
-      message.error('A Network Error occurred')
-    }
+    if (!this.state.initialised) this.initialiseData()
     return (
       <>
         <AutoComplete
