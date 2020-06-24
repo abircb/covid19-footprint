@@ -4,7 +4,12 @@ import DataHeader from './components/DataHeader.js'
 import Header from './components/Header.js'
 import CountryDisplay from './components/CountryDisplay.js'
 import Footer from './components/Footer.js'
-import { requestGlobalSummary, requestListOfCountries } from './api/data'
+import {
+  requestGlobalData,
+  requestListOfCountries,
+  extractGlobalSummary,
+  extractCountryData,
+} from './api/data'
 import { getInfoBit } from './static/bits'
 import 'antd/dist/antd.dark.css'
 import './assets/css/App.css'
@@ -16,19 +21,26 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      globalData: null,
       globalSummary: null,
       countries: null,
+      countryData: null,
       hasError: false,
     }
   }
 
   async componentDidMount() {
     try {
-      let countries = await requestListOfCountries()
-      let globalSummary = await requestGlobalSummary()
+      const globalData = await requestGlobalData()
+      const countries = await requestListOfCountries()
+      const globalSummary = extractGlobalSummary(globalData)
+      const countryData = extractCountryData(globalData)
+      console.log(countryData)
+      console.log(globalSummary)
       this.setState({
         countries: countries,
         globalSummary: globalSummary,
+        countryData: countryData,
       })
     } catch (err) {
       this.setState({ hasError: true })
@@ -36,7 +48,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.countries && this.state.globalSummary) {
+    if (this.state.countries && this.state.globalData) {
       message.success('Retrieved latest data', 1)
     }
   }
@@ -61,7 +73,10 @@ class App extends Component {
               summary={this.state.globalSummary}
               style={{ marginTop: '2%' }}
             />
-            <CountryDisplay options={this.state.countries} />
+            <CountryDisplay
+              options={this.state.countries}
+              globalData={this.state.countryData}
+            />
             <Paragraph
               style={{ fontSize: '11px', textAlign: 'center', color: '#fff' }}
               copyable
