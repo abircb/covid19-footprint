@@ -114,7 +114,7 @@ function parseCountryData(data, slug) {
       confirmed: formatNum(data['TotalConfirmed']),
       recovered:
         data['Recovered'] === 0 || data['Slug'] === 'united-kingdom'
-          ? 'Unknown'
+          ? 'No Data'
           : formatNum(data['TotalRecovered']),
       deaths: formatNum(data['TotalDeaths']),
     }
