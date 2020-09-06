@@ -70,7 +70,7 @@ class CountryDisplay extends Component {
   }
 
   /**
-     * componentDidMount for React production build
+     * componentDidMount for browser testing
         componentDidMount() {
           let defaultData = []
           let countryData = null
@@ -89,60 +89,57 @@ class CountryDisplay extends Component {
     const { globalData } = this.props
     let cacheData = []
     let countryData = null
+
     chrome.storage.sync.get(['slugs'], (result) => {
+      let count, slugs
       if (result.slugs) {
-        result.slugs.forEach((slug) => {
-          countryData = requestDataByCountry(slug, globalData)
-          cacheData.push(countryData)
-        })
-        this.setState({
-          data: cacheData,
-          count: result.slugs.length,
-          slugs: result.slugs,
-          initialised: true,
-        })
+        count = result.slugs.length
+        slugs = result.slugs
       } else {
-        defaultCountries.forEach((slug) => {
-          countryData = requestDataByCountry(slug, globalData)
-          cacheData.push(countryData)
-        })
-        this.setState({
-          data: cacheData,
-          count: defaultCountries.length,
-          slugs: defaultCountries,
-          initialised: true,
-        })
+        count = defaultCountries.length
+        slugs = defaultCountries
       }
+
+      slugs.forEach((slug) => {
+        countryData = requestDataByCountry(slug, globalData)
+        cacheData.push(countryData)
+      })
+
+      this.setState({
+        data: cacheData,
+        count: count,
+        slugs: slugs,
+        initialised: true,
+      })
     })
   }
 
   addCountry(slug) {
     const { globalData } = this.props
     const { data, count, slugs } = this.state
+
     if (count === 5) {
       this.dataOverflowMessage()
+    } else if (slugs.includes(slug)) {
+      message.info('Country already exists in your list', 1)
     } else {
-      if (slugs.includes(slug)) {
-        message.info('Country already exists in your list', 1)
-      } else {
-        let countryData = requestDataByCountry(slug, globalData)
-        if (checkIfMissing(countryData)) {
-          this.missingDataMessage()
-        } else {
-          this.setState(
+      let countryData = requestDataByCountry(slug, globalData)
+      let missing = checkIfMissing(countryData)
+
+      missing
+        ? this.missingDataMessage()
+        : this.setState(
             {
               data: [...data, countryData],
               count: count + 1,
               slugs: [...slugs, slug],
             },
             () => {
-              chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+              chrome.storage.sync.set({ slugs: this.state.slugs }, () =>
                 message.success('Added to your list', 1)
-              })
+              )
             }
           )
-        }
-      }
     }
   }
 
@@ -155,9 +152,9 @@ class CountryDisplay extends Component {
         slugs: slugs.filter((item) => item !== slug),
       },
       () => {
-        chrome.storage.sync.set({ slugs: this.state.slugs }, () => {
+        chrome.storage.sync.set({ slugs: this.state.slugs }, () =>
           message.success('Removed from your list', 1)
-        })
+        )
       }
     )
   }
