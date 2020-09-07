@@ -91,23 +91,14 @@ class CountryDisplay extends Component {
     let countryData = null
 
     chrome.storage.sync.get(['slugs'], (result) => {
-      let count, slugs
-      if (result.slugs) {
-        count = result.slugs.length
-        slugs = result.slugs
-      } else {
-        count = defaultCountries.length
-        slugs = defaultCountries
-      }
-
+      let slugs = result.slugs ? result.slugs : defaultCountries
       slugs.forEach((slug) => {
         countryData = requestDataByCountry(slug, globalData)
         cacheData.push(countryData)
       })
-
       this.setState({
         data: cacheData,
-        count: count,
+        count: slugs.length,
         slugs: slugs,
         initialised: true,
       })

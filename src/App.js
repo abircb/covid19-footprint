@@ -35,8 +35,6 @@ class App extends Component {
       const countries = await requestListOfCountries()
       const globalSummary = extractGlobalSummary(globalData)
       const countryData = extractCountryData(globalData)
-      console.log(countryData)
-      console.log(globalSummary)
       this.setState({
         countries: countries,
         globalSummary: globalSummary,

@@ -14,7 +14,6 @@ function requestGlobalData() {
       })
       .catch((e) => {
         reject(e)
-        console.error(e)
       })
   })
 }
@@ -35,7 +34,7 @@ function requestListOfCountries() {
             slug: dataPoint['Slug'],
           })
         })
-        countries.sort(function (a, b) {
+        countries.sort((a, b) => {
           let x = a.value.toLowerCase(),
             y = b.value.toLowerCase()
           if (x < y) return -1
@@ -46,7 +45,6 @@ function requestListOfCountries() {
       })
       .catch((e) => {
         reject(e)
-        console.error(e)
       })
   })
 }

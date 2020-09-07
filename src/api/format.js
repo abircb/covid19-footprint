@@ -7,12 +7,13 @@ const suffix = ['K', 'M', 'B'] // Unlikely for any of the data to go beyond the 
  * @returns {String}
  */
 function formatNum(num) {
-  if (num / 1e9 >= 1) {
-    return (num / 1e9).toFixed(1).toString() + suffix[2]
-  } else if (num / 1e6 >= 1) {
-    return (num / 1e6).toFixed(1).toString() + suffix[1]
-  } else if (num / 1000 >= 1) {
-    return (num / 1000).toFixed(1).toString() + suffix[0]
+  const thousands = num / 1000
+  if (thousands >= 1e6) {
+    return (thousands / 1e6).toFixed(1).toString() + suffix[2]
+  } else if (thousands >= 1000) {
+    return (thousands / 1000).toFixed(1).toString() + suffix[1]
+  } else if (thousands >= 1) {
+    return thousands.toFixed(1).toString() + suffix[0]
   } else {
     return num.toString()
   }
@@ -38,10 +39,11 @@ function formatStat(percent) {
  */
 function stringify(percent) {
   // Unlikely for any stat to be beyond the millions (if that)
-  if (percent / 1e6 >= 1) {
-    return (percent / 1e6).toFixed(1).toString() + suffix[1]
-  } else if (percent / 1000 >= 1) {
-    return (percent / 1000).toFixed(1).toString() + suffix[0]
+  const thousands = percent / 1000
+  if (thousands >= 1000) {
+    return (thousands / 1000).toFixed(1).toString() + suffix[1]
+  } else if (thousands >= 1) {
+    return thousands.toFixed(1).toString() + suffix[0]
   } else {
     return percent.toFixed(1).toString()
   }
