@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "COVID-19 Footprint | Coronavirus Live Tracker",
   "author": "Abir Bhushan",
   "description": "Track the novel coronavirus outbreak from your very own Chrome menu.",
