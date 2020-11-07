@@ -5,48 +5,46 @@ const SERVER = 'https://api.covid19api.com/'
  * Pulls complete global data of the pandemic from the 'Coronavirus COVID19 API'
  * @returns {Promise} Promise object with the latest global data
  */
-function requestGlobalData() {
-  return new Promise((resolve, reject) => {
-    fetch(SERVER + 'summary')
-      .then(async (res) => {
-        const json = await res.json()
-        resolve(json)
-      })
-      .catch((e) => {
-        reject(e)
-      })
-  })
+async function requestGlobalData() {
+  const res = await fetch(SERVER + 'summary')
+
+  if (!res.ok) {
+    return Promise.reject(new Error('Network error'))
+  }
+
+  const json = await res.json()
+  return Promise.resolve(json)
 }
 
 /**
  * Pulls all locations from the 'Coronavirus COVID19 API' and filters out unique country names
  * @returns {Promise} An array of objects containing country names
  */
-function requestListOfCountries() {
-  return new Promise((resolve, reject) => {
-    fetch(SERVER + 'countries')
-      .then(async (res) => {
-        const json = await res.json()
-        let countries = []
-        json.forEach((dataPoint) => {
-          countries.push({
-            value: dataPoint['Country'],
-            slug: dataPoint['Slug'],
-          })
-        })
-        countries.sort((a, b) => {
-          let x = a.value.toLowerCase(),
-            y = b.value.toLowerCase()
-          if (x < y) return -1
-          if (x > y) return 1
-          return 0
-        })
-        resolve(countries)
-      })
-      .catch((e) => {
-        reject(e)
-      })
+async function requestListOfCountries() {
+  const res = await fetch(SERVER + 'countries')
+
+  if (!res.ok) {
+    return Promise.reject(new Error('Network error'))
+  }
+
+  const json = await res.json()
+  let countries = []
+
+  json.forEach((dataPoint) => {
+    countries.push({
+      value: dataPoint['Country'],
+      slug: dataPoint['Slug'],
+    })
   })
+
+  countries.sort((a, b) => {
+    let x = a.value.toLowerCase(),
+      y = b.value.toLowerCase()
+    if (x < y) return -1
+    if (x > y) return 1
+    return 0
+  })
+  return Promise.resolve(countries)
 }
 
 /**
@@ -100,22 +98,21 @@ function parseCountryData(data, slug) {
     return {
       key: '404',
     }
-  } else {
-    const delta = deltaCases(
-      data['TotalConfirmed'],
-      data['TotalConfirmed'] - data['NewConfirmed']
-    )
-    return {
-      key: slug,
-      country: data['Country'],
-      delta: delta,
-      confirmed: formatNum(data['TotalConfirmed']),
-      recovered:
-        data['Recovered'] === 0 || data['Slug'] === 'united-kingdom'
-          ? 'No Data'
-          : formatNum(data['TotalRecovered']),
-      deaths: formatNum(data['TotalDeaths']),
-    }
+  }
+  const delta = deltaCases(
+    data['TotalConfirmed'],
+    data['TotalConfirmed'] - data['NewConfirmed']
+  )
+  return {
+    key: slug,
+    country: data['Country'],
+    delta: delta,
+    confirmed: formatNum(data['TotalConfirmed']),
+    recovered:
+      data['Recovered'] === 0 || data['Slug'] === 'united-kingdom'
+        ? 'No Data'
+        : formatNum(data['TotalRecovered']),
+    deaths: formatNum(data['TotalDeaths']),
   }
 }
 
@@ -129,9 +126,8 @@ function deltaCases(a, b) {
   const delta = ((a - b) / b) * 100
   if (delta < 0) {
     return 'Disputed'
-  } else {
-    return formatStat(delta)
   }
+  return formatStat(delta)
 }
 
 /**

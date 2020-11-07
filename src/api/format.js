@@ -27,9 +27,8 @@ function formatNum(num) {
 function formatStat(percent) {
   if (percent === 0) {
     return '0%'
-  } else {
-    return '+' + stringify(percent) + '%'
   }
+  return '+' + stringify(percent) + '%'
 }
 
 /**
