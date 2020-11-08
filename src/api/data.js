@@ -7,7 +7,6 @@ const SERVER = 'https://api.covid19api.com/'
  */
 async function requestGlobalData() {
   const res = await fetch(SERVER + 'summary')
-
   if (!res.ok) {
     return Promise.reject(new Error('Network error'))
   }
@@ -22,7 +21,6 @@ async function requestGlobalData() {
  */
 async function requestListOfCountries() {
   const res = await fetch(SERVER + 'countries')
-
   if (!res.ok) {
     return Promise.reject(new Error('Network error'))
   }
