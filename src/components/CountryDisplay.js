@@ -45,11 +45,6 @@ class CountryDisplay extends Component {
         key: 'confirmed',
       },
       {
-        title: 'Recovered',
-        dataIndex: 'recovered',
-        key: 'recovered',
-      },
-      {
         title: 'Deaths',
         dataIndex: 'deaths',
         key: 'deaths',

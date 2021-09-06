@@ -72,7 +72,6 @@ function extractGlobalSummary(globalData) {
     confirmed: json['TotalConfirmed'],
     newConfirmed: json['NewConfirmed'],
     recovered: json['TotalRecovered'],
-    newRecovered: json['NewRecovered'],
     deaths: json['TotalDeaths'],
     newDeaths: json['NewDeaths'],
   }
@@ -106,10 +105,7 @@ function parseCountryData(data, slug) {
     country: data['Country'],
     delta: delta,
     confirmed: formatNum(data['TotalConfirmed']),
-    recovered:
-      data['Recovered'] === 0 || data['Slug'] === 'united-kingdom'
-        ? 'No Data'
-        : formatNum(data['TotalRecovered']),
+    recovered: 'No Data',
     deaths: formatNum(data['TotalDeaths']),
   }
 }
